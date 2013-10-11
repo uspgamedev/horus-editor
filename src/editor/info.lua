@@ -6,7 +6,7 @@ function majorVersion ()
 end
 
 function minorVersion ()
-  return 0
+  return 1
 end
 
 function patchVersion ()

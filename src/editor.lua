@@ -5,3 +5,6 @@ print "Welcome to Horus Eye's content editor."
 
 require 'editor.info'
 
+function openProject (path)
+  
+end
