@@ -3,7 +3,9 @@ module ('editor', package.seeall)
 
 local obj = require 'lux.object'
 
-Content = obj.new {}
+Content = obj.new {
+  path = '.'
+}
 
 function Content.open (path)
   local content = Content:new{}
