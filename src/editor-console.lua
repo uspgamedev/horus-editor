@@ -1,10 +1,8 @@
 
 require 'editor'
-require 'curses'
+require 'console.core'
 
-curses.initscr()
-curses.cbreak()
-curses.echo(0)
+console.core.init()
 
 local stdscr = curses.stdscr()
 stdscr:keypad(true)
