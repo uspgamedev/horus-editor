@@ -4,11 +4,7 @@ require 'editor'
 require 'console.screen'
 
 console.init()
-local ok, err = pcall(
-  function ()
-    assert(loadfile 'console/main.lua') ()
-  end
-)
+local ok, err = pcall(console.run)
 console.finish()
 
 assert(ok, err)

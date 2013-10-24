@@ -2,6 +2,7 @@
 module ('console', package.seeall)
 
 require 'curses'
+require 'console.InteractionMode'
 
 local stdscr
 
@@ -17,6 +18,10 @@ end
 
 function screen ()
   return stdscr
+end
+
+function run ()
+  InteractionMode:new{}:resume()
 end
 
 function finish ()
