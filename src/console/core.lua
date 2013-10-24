@@ -6,5 +6,8 @@ require 'curses'
 function init ()
   curses.initscr()
   curses.cbreak()
-  curses.echo(0)
+  curses.echo(false)
+  --curses.nl(false)
+  curses.stdscr():keypad(true)
+  curses.stdscr():clear()
 end
