@@ -1,14 +1,17 @@
 
 require 'console.elements.TextField'
 
+function console.handlers.checkInput (code)
+  return console.screen():getch() == code
+end
+
 console.elements.TextField:new {
   i = 15, j = 20,
   text = "Console mode! Resolution is "..curses.lines().."x"..curses.cols(),
   attribute = 'BOLD'
 } :display(console.screen())
 
-while true do
-  console.screen():refresh()
-  local ch = console.screen():getch()
-  if ch < 256 and string.char(ch) == 'q' then break end
-end
+repeat  console.screen():refresh()
+until   event 'checkInput' (string.byte 'q')
+
+event 'done' ()
