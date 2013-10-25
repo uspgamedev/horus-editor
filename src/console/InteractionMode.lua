@@ -9,9 +9,9 @@ InteractionMode = lux.object.new {
 
 local env = {}
 
-function env.event (type)
+function env.event (message)
   return function (...)
-    return coroutine.yield(type, ...)
+    return coroutine.yield(message, ...)
   end
 end
 

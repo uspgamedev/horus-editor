@@ -42,7 +42,7 @@ module ("lux.common", package.seeall) do
   --  @return       The table representing the data file.
   function datafile (path, loader)
     loader = loader or load
-    local file = loader(path)
+    local file = assert(loader(path))
     local data = {}
     package.seeall(data)
     setfenv(file, data) ()
