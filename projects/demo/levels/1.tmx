@@ -6,30 +6,27 @@
  <tileset firstgid="4" source="../../../tiled/object_tilesets/stairs.tsx"/>
  <layer name="exit" width="16" height="80">
   <data encoding="base64" compression="zlib">
-   eJztyzEKADAIBEHj/x8tthEhVaoZuO42YjrLXvU3r+n1egAAAID/CsEXAIk=
+   eJztzTEKACAMBMEo/v/NYmsQtBJ0Bq7LkoisLLZr3NZpv/bt8n+9/rQHAAAA3tIBK50Anw==
   </data>
  </layer>
- <layer name="firstblood" width="16" height="80">
+ <layer name="firstblood" width="16" height="80" visible="0">
   <data encoding="base64" compression="zlib">
-   eJzt0EEKABAARUHc/9A2lETYSJqpv5BeSgjAS2JZKqvnkz510+tXTbtR327nzdl+7Wd/OLoDAAC4LQMHZADZ
+   eJzt0EEKABAARUHc/9A2RCJsmam/kF5KCABNLEtl9XzTp2F6/a7pN+v7nby52qv96g9ndwAAwH8ym1UA2Q==
   </data>
  </layer>
- <layer name="closedcorridor" width="16" height="80">
+ <layer name="closedcorridor" width="16" height="80" visible="0">
   <data encoding="base64" compression="zlib">
-   eJztzSEOACAMBMEC//8zphgEgSBAzCQnKjaNAAB+UHI1N+6Tvk7T63e1x//1dz0AwEoH9IIAqw==
+   eJztzSEOACAMBMFS/v9nTDE4giCBmeRExaYRAAARrZa1ee/0uUz/T98v/9ef9QDA2wZRLgCh
   </data>
  </layer>
- <layer name="opencorridor" width="16" height="80">
+ <layer name="opencorridor" width="16" height="80" visible="0">
   <data encoding="base64" compression="zlib">
-   eJztzSEOACAMBMEC//8zphgUBEEIM8mJik0jAACAl5VczY17p6/T9PpV7fJ//VkP/KEDIeQAqw==
+   eJztzSEOACAMBMFS/v9nTDE4gkB0JjlRsWkEAADQ2ahlbd83fR7T9+nn5//6tx7oYQHRAQCh
   </data>
  </layer>
- <layer name="entrance" width="16" height="80">
+ <layer name="entrance" width="16" height="80" visible="0">
   <data encoding="base64" compression="zlib">
    eJztzjEKACAMA8Dq/x/tLhYq4qDcQZaSQiIAAACA37UkfUrWW3WrufW/c7Pf/tf3n2QAny0BwQ==
   </data>
  </layer>
- <objectgroup name="exit" width="16" height="80">
-  <object gid="4" x="486" y="216"/>
- </objectgroup>
 </map>
