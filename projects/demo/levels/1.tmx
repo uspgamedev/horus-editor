@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="isometric" width="10" height="10" tilewidth="106" tileheight="54">
- <tileset firstgid="1" source="../../../../ground2_106x54.tsx"/>
- <tileset firstgid="2" source="../../../../wall-simple.tsx"/>
- <layer name="Camada de Tiles 1" width="10" height="10">
+<map version="1.0" orientation="isometric" width="16" height="80" tilewidth="106" tileheight="54">
+ <tileset firstgid="1" source="../../../tiled/scenery_tilesets/wall-shortened.tsx"/>
+ <tileset firstgid="2" source="../../../tiled/scenery_tilesets/ground.tsx"/>
+ <tileset firstgid="3" source="../../../tiled/scenery_tilesets/wall-burnt.tsx"/>
+ <tileset firstgid="4" source="../../../tiled/object_tilesets/stairs.tsx"/>
+ <layer name="exit" width="16" height="80">
   <data encoding="base64" compression="zlib">
-   eJxjYBgYwAjF1FI3XAAABZgABQ==
+   eJztyzEKADAIBEHj/x8tthEhVaoZuO42YjrLXvU3r+n1egAAAID/CsEXAIk=
   </data>
  </layer>
- <objectgroup name="Camada de Objetos 1" width="10" height="10">
-  <object name="obj1" x="2" y="166" width="109" height="105"/>
-  <object name="obj2" x="2" y="273" width="109" height="105"/>
+ <layer name="firstblood" width="16" height="80">
+  <data encoding="base64" compression="zlib">
+   eJzt0EEKABAARUHc/9A2lETYSJqpv5BeSgjAS2JZKqvnkz510+tXTbtR327nzdl+7Wd/OLoDAAC4LQMHZADZ
+  </data>
+ </layer>
+ <layer name="closedcorridor" width="16" height="80">
+  <data encoding="base64" compression="zlib">
+   eJztzSEOACAMBMEC//8zphgEgSBAzCQnKjaNAAB+UHI1N+6Tvk7T63e1x//1dz0AwEoH9IIAqw==
+  </data>
+ </layer>
+ <layer name="opencorridor" width="16" height="80">
+  <data encoding="base64" compression="zlib">
+   eJztzSEOACAMBMEC//8zphgUBEEIM8mJik0jAACAl5VczY17p6/T9PpV7fJ//VkP/KEDIeQAqw==
+  </data>
+ </layer>
+ <layer name="entrance" width="16" height="80">
+  <data encoding="base64" compression="zlib">
+   eJztzjEKACAMA8Dq/x/tLhYq4qDcQZaSQiIAAACA37UkfUrWW3WrufW/c7Pf/tf3n2QAny0BwQ==
+  </data>
+ </layer>
+ <objectgroup name="exit" width="16" height="80">
+  <object gid="4" x="486" y="216"/>
  </objectgroup>
- <layer name="Camada de Tiles 2" width="10" height="10" visible="0">
-  <data encoding="base64" compression="zlib">
-   eJxjYmBgYCISEwKj6vCrIwYDADpgAEk=
-  </data>
- </layer>
 </map>
