@@ -61,7 +61,6 @@ local horus_objects = {}
 for _, tileset in ipairs(data.tilesets) do
     horus_objects[tileset.firstgid] = tileset.name
     -- We only use one image per tileset.
-    print(tileset.name)
 end
 
 -- Converts tileset names into horus matrix elements
@@ -71,6 +70,8 @@ local magic_glue = {
     ["stairs"] = "D",
     ["wall-burnt"] = "&",
 }
+
+local rooms = {}
 
 for _, layer in ipairs(data.layers) do
     assert(layer.type == "tilelayer", "Other types are NYI.")
@@ -105,13 +106,33 @@ for _, layer in ipairs(data.layers) do
     }
     
     local s = ""
-    for y = 1,room.height do
+    for y = room.height,1,-1 do
         for x = room.width,1,-1 do
             s = s .. (magic_glue[horus_objects[columns[x + first_col - 1][y + first_row - 1]]] or ' ')
         end
         s = s .. "\n"
-    end
-    
-    print(room.name, room.x, room.y, room.width, room.height)
-    print(s)
+      end
+    room.matrix = s
+      table.insert(rooms, room)
+end
+
+out = io.open(output, "w")
+out:write("rooms = {\n")
+for _, room in ipairs(rooms) do
+  out:write("  { " .. room.x .. ", " .. room.y .. ', "' .. room.name .. '"},\n')
+end
+out:write("}\n")
+
+out:write("start_position = nil -- NYI\n")
+
+out:write("width = " .. map.width .. "\n")
+out:write("height = " .. map.height .. "\n")
+
+for _, room in ipairs(rooms) do
+  out:write(room.name .. " = {\n")
+  out:write("  neighborhood = {}, -- NYI\n")
+  out:write("  width = " .. room.width .. ",\n")
+  out:write("  height = " .. room.height .. ",\n")
+  out:write("  matrix = \[\[\n" .. room.matrix .. "]],\n")
+  out:write("}\n")
 end
