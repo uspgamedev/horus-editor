@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="10" height="10" tilewidth="106" tileheight="54">
+ <tileset firstgid="1" source="../../../../ground2_106x54.tsx"/>
+ <tileset firstgid="2" source="../../../../wall-simple.tsx"/>
+ <layer name="Camada de Tiles 1" width="10" height="10">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgYwAjF1FI3XAAABZgABQ==
+  </data>
+ </layer>
+ <objectgroup name="Camada de Objetos 1" width="10" height="10">
+  <object name="obj1" x="2" y="166" width="109" height="105"/>
+  <object name="obj2" x="2" y="273" width="109" height="105"/>
+ </objectgroup>
+ <layer name="Camada de Tiles 2" width="10" height="10" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJxjYmBgYCISEwKj6vCrIwYDADpgAEk=
+  </data>
+ </layer>
+</map>
