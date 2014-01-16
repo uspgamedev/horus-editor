@@ -35,6 +35,40 @@ local magic_glue = {
 
 --Functions that shalt be used
 
+local dumpdata = {}
+
+function dump (value, ident)
+  ident = ident or ''
+  local t = type(value)
+  if dumpdata['type'..t] then
+    return dumpdata['type'..t](value, ident)
+  end
+  return tostring(value)
+end
+
+function dumpdata.typestring (value)
+  return "[["..value.."]]"
+end
+function dumpdata.typetable (value, ident)
+  if value['__dumpfunction'] then
+    return value['__dumpfunction'](value, ident)
+  end
+  local str = (value.__type or "").."{".."\n"
+  for k,v in pairs(value) do
+    if type(k) == 'string' then
+      if k[1] ~= '_' then
+        str = str..ident..'  '..'["'..k..'"] = '..dump(v, ident .. '  ')..",\n"
+      end
+    else
+      str = str..ident..'  '.."["..k.."] = "..dump(v, ident .. '  ')..",\n"
+    end
+  end
+  return str..ident.."}"
+end
+function dumpdata.typefunction (value)
+  return '"*FUNCTION*"'
+end
+
 function table_slice (values,i1,i2) -- http://snippets.luacode.org/?p=snippets/Table_Slice_116
     local res = {}
     local n = #values
@@ -55,6 +89,36 @@ function table_slice (values,i1,i2) -- http://snippets.luacode.org/?p=snippets/T
         k = k + 1
     end
     return res
+end
+
+function trim(s) -- http://lua-users.org/wiki/StringTrim
+  return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+-- Compatibility: Lua-5.0
+function split(str, delim, maxNb) -- http://lua-users.org/wiki/SplitJoin
+    -- Eliminate bad cases...
+    if string.find(str, delim) == nil then
+        return { str }
+    end
+    if maxNb == nil or maxNb < 1 then
+        maxNb = 0    -- No limit
+    end
+    local result = {}
+    local pat = "(.-)" .. delim .. "()"
+    local nb = 0
+    local lastPos
+    for part, pos in string.gfind(str, pat) do
+        nb = nb + 1
+        result[nb] = part
+        lastPos = pos
+        if nb == maxNb then break end
+    end
+    -- Handle the last field
+    if nb ~= maxNb then
+        result[nb + 1] = string.sub(str, lastPos)
+    end
+    return result
 end
 
 function find_first_last_row(t)
@@ -96,7 +160,17 @@ local function handle_tilelayer (layer)
             
         width = last_col - first_col + 1,
         height = last_row - first_row + 1,
+        neighborhood = {},
+        
     }
+    
+    if layer.properties and layer.properties.neighborhood then
+        for _, n in ipairs(split(layer.properties.neighborhood, ",")) do
+            table.insert(room.neighborhood, trim(n))
+        end
+    else
+        print("Layer '" .. layer.name .. "' missing neightborhood property.")
+    end
        
     local s = ""
     for y = room.height,1,-1 do
@@ -169,10 +243,10 @@ out:write("width = " .. map.width .. "\n")
 out:write("height = " .. map.height .. "\n")
 
 for _, room in ipairs(rooms) do
-  out:write(room.name .. " = {\n")
-  out:write("  neighborhood = {}, -- NYI\n")
-  out:write("  width = " .. room.width .. ",\n")
-  out:write("  height = " .. room.height .. ",\n")
-  out:write("  matrix = \[\[\n" .. room.matrix .. "]],\n")
-  out:write("}\n")
+  out:write(room.name .. " = \n" .. dump(room) .. "\n")
+  --out:write("  neighborhood = {}, -- NYI\n")
+  --out:write("  width = " .. room.width .. ",\n")
+  --out:write("  height = " .. room.height .. ",\n")
+  --out:write("  matrix = \[\[\n" .. room.matrix .. "]],\n")
+  --out:write("}\n")
 end

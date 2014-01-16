@@ -8,26 +8,41 @@
   <image source="../../../resources/images/sprite-sheet_MOD3.png" width="550" height="1100"/>
  </tileset>
  <layer name="exit" width="16" height="80">
+  <properties>
+   <property name="neighborhood" value="firstblood"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJztzTEKACAMBMEo/v/NYmsQtBJ0Bq7LkoisLLZr3NZpv/bt8n+9/rQHAAAA3tIBK50Anw==
   </data>
  </layer>
  <layer name="firstblood" width="16" height="80">
+  <properties>
+   <property name="neighborhood" value="closedcorridor, exit"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJzt0EEKABAARUHc/9A2RCJsmam/kF5KCABNLEtl9XzTp2F6/a7pN+v7nby52qv96g9ndwAAwH8ym1UA2Q==
   </data>
  </layer>
  <layer name="closedcorridor" width="16" height="80">
+  <properties>
+   <property name="neighborhood" value="opencorridor, firstblood"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJztzSEOACAMBMFS/v9nTDE4giCBmeRExaYRAAARrZa1ee/0uUz/T98v/9ef9QDA2wZRLgCh
   </data>
  </layer>
  <layer name="opencorridor" width="16" height="80">
+  <properties>
+   <property name="neighborhood" value="entrance, closedcorridor"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJztzSEOACAMBMFS/v9nTDE4gkB0JjlRsWkEAADQ2ahlbd83fR7T9+nn5//6tx7oYQHRAQCh
   </data>
  </layer>
  <layer name="entrance" width="16" height="80">
+  <properties>
+   <property name="neighborhood" value="opencorridor"/>
+  </properties>
   <data encoding="base64" compression="zlib">
    eJztzjEKACAMA8Dq/x/tLhYq4qDcQZaSQiIAAACA37UkfUrWW3WrufW/c7Pf/tf3n2QAny0BwQ==
   </data>

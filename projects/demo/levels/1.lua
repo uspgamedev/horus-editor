@@ -88,7 +88,9 @@ return {
       height = 80,
       visible = true,
       opacity = 1,
-      properties = {},
+      properties = {
+        ["neighborhood"] = "firstblood"
+      },
       encoding = "lua",
       data = {
         0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
@@ -182,7 +184,9 @@ return {
       height = 80,
       visible = true,
       opacity = 1,
-      properties = {},
+      properties = {
+        ["neighborhood"] = "closedcorridor, exit"
+      },
       encoding = "lua",
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -276,7 +280,9 @@ return {
       height = 80,
       visible = true,
       opacity = 1,
-      properties = {},
+      properties = {
+        ["neighborhood"] = "opencorridor, firstblood"
+      },
       encoding = "lua",
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -370,7 +376,9 @@ return {
       height = 80,
       visible = true,
       opacity = 1,
-      properties = {},
+      properties = {
+        ["neighborhood"] = "entrance, closedcorridor"
+      },
       encoding = "lua",
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -464,7 +472,9 @@ return {
       height = 80,
       visible = true,
       opacity = 1,
-      properties = {},
+      properties = {
+        ["neighborhood"] = "opencorridor"
+      },
       encoding = "lua",
       data = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -551,7 +561,7 @@ return {
     },
     {
       type = "objectgroup",
-      name = "opencorridor",
+      name = "entrance",
       visible = true,
       opacity = 1,
       properties = {},
@@ -561,7 +571,7 @@ return {
           type = "",
           shape = "rectangle",
           x = 432,
-          y = 3294,
+          y = 4158,
           width = 0,
           height = 0,
           gid = 5,
