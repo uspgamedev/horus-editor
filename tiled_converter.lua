@@ -187,12 +187,6 @@ local function handle_objectlayer (layer)
     for _, obj in ipairs(layer.objects) do
         if obj.name == "hero" then
             hero_pos.room = layer.name
-            local hero_room
-            for _, room in ipairs(rooms) do
-                if room.name == hero_pos.room then
-                    hero_room = room
-                end
-            end
             --Trying to deduce grid x and y coordiantes out of Tiled's pixel-based approach
             --x and y are reversed due to differences in Tiled's orientation and Horus orientation
             ---0.5 are gambs
