@@ -63,6 +63,19 @@ return {
       imageheight = 109,
       properties = {},
       tiles = {}
+    },
+    {
+      name = "hero",
+      firstgid = 5,
+      tilewidth = 110,
+      tileheight = 110,
+      spacing = 0,
+      margin = 0,
+      image = "../../../resources/images/sprite-sheet_MOD3.png",
+      imagewidth = 550,
+      imageheight = 1100,
+      properties = {},
+      tiles = {}
     }
   },
   layers = {
@@ -167,7 +180,7 @@ return {
       y = 0,
       width = 16,
       height = 80,
-      visible = false,
+      visible = true,
       opacity = 1,
       properties = {},
       encoding = "lua",
@@ -261,7 +274,7 @@ return {
       y = 0,
       width = 16,
       height = 80,
-      visible = false,
+      visible = true,
       opacity = 1,
       properties = {},
       encoding = "lua",
@@ -355,7 +368,7 @@ return {
       y = 0,
       width = 16,
       height = 80,
-      visible = false,
+      visible = true,
       opacity = 1,
       properties = {},
       encoding = "lua",
@@ -449,7 +462,7 @@ return {
       y = 0,
       width = 16,
       height = 80,
-      visible = false,
+      visible = true,
       opacity = 1,
       properties = {},
       encoding = "lua",
@@ -534,6 +547,27 @@ return {
         1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1,
         1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1,
         1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+      }
+    },
+    {
+      type = "objectgroup",
+      name = "opencorridor",
+      visible = true,
+      opacity = 1,
+      properties = {},
+      objects = {
+        {
+          name = "hero",
+          type = "",
+          shape = "rectangle",
+          x = 432,
+          y = 3294,
+          width = 0,
+          height = 0,
+          gid = 5,
+          visible = true,
+          properties = {}
+        }
       }
     }
   }

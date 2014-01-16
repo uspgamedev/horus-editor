@@ -18,6 +18,23 @@ assert(data.luaversion == lua_version)
 assert(data.tilewidth == horus_width)
 assert(data.tileheight == horus_height)
 
+--Globals that shalt be used
+local map = {}
+local horus_objects = {}
+local rooms = {}
+local hero_pos = {}
+
+-- Converts tileset names into horus matrix elements
+local magic_glue = {
+    ["wall-shortened"] = "%",
+    ["ground"] = ".",
+    ["stairs"] = "D",
+    ["wall-burnt"] = "&",
+}
+
+
+--Functions that shalt be used
+
 function table_slice (values,i1,i2) -- http://snippets.luacode.org/?p=snippets/Table_Slice_116
     local res = {}
     local n = #values
@@ -39,6 +56,7 @@ function table_slice (values,i1,i2) -- http://snippets.luacode.org/?p=snippets/T
     end
     return res
 end
+
 function find_first_last_row(t)
     local first, last
     for i, v in ipairs(t) do
@@ -50,32 +68,7 @@ function find_first_last_row(t)
     return first, last
 end
 
-local map = {}
-
--- Tiled orientation is inverted
-map.width = data.height
-map.height = data.width
-
-local horus_objects = {}
-
-for _, tileset in ipairs(data.tilesets) do
-    horus_objects[tileset.firstgid] = tileset.name
-    -- We only use one image per tileset.
-end
-
--- Converts tileset names into horus matrix elements
-local magic_glue = {
-    ["wall-shortened"] = "%",
-    ["ground"] = ".",
-    ["stairs"] = "D",
-    ["wall-burnt"] = "&",
-}
-
-local rooms = {}
-
-for _, layer in ipairs(data.layers) do
-    assert(layer.type == "tilelayer", "Other types are NYI.")
-
+local function handle_tilelayer (layer)
     local columns = {}
     for i = 1, map.width do
         table.insert(columns, table_slice(layer.data, (i - 1) * map.height + 1, i * map.height))
@@ -88,7 +81,7 @@ for _, layer in ipairs(data.layers) do
         if fr then
             first_col = first_col or x
             last_col  = x
-            
+           
             first_row = math.min(first_row, fr)
             last_row = math.max(last_row, lr)
         end
@@ -100,21 +93,68 @@ for _, layer in ipairs(data.layers) do
         -- Tiled's coordinate system starts from top and horus from bottom. shenanigans
         x = map.width - last_col,
         y = map.height - last_row,
-        
+            
         width = last_col - first_col + 1,
         height = last_row - first_row + 1,
     }
-    
+       
     local s = ""
     for y = room.height,1,-1 do
         for x = room.width,1,-1 do
             s = s .. (magic_glue[horus_objects[columns[x + first_col - 1][y + first_row - 1]]] or ' ')
         end
         s = s .. "\n"
-      end
+    end
     room.matrix = s
-      table.insert(rooms, room)
+    table.insert(rooms, room)
 end
+
+local function handle_objectlayer (layer)
+    for _, obj in ipairs(layer.objects) do
+        if obj.name == "hero" then
+            hero_pos.room = layer.name
+            local hero_room
+            for _, room in ipairs(rooms) do
+                if room.name == hero_pos.room then
+                    hero_room = room
+                end
+            end
+            --Trying to deduce grid x and y coordiantes out of Tiled's pixel-based approach
+            --x and y are reversed due to differences in Tiled's orientation and Horus orientation
+            ---0.5 are gambs
+            hero_pos.x = map.width - (obj.y/horus_height) -0.5
+            hero_pos.y = map.height - (obj.x/horus_height) -0.5
+        end
+    end
+end
+
+--Stuff starts here
+
+
+-- Tiled orientation is inverted
+map.width = data.height
+map.height = data.width
+
+
+
+for _, tileset in ipairs(data.tilesets) do
+    horus_objects[tileset.firstgid] = tileset.name
+    -- We only use one image per tileset.
+end
+
+
+for _, layer in ipairs(data.layers) do
+    if layer.type == "tilelayer" then
+        handle_tilelayer(layer)
+    end
+end
+
+for _, layer in ipairs(data.layers) do
+    if layer.type == "objectgroup" then
+        handle_objectlayer(layer)
+    end
+end
+
 
 out = io.open(output, "w")
 out:write("rooms = {\n")
@@ -123,7 +163,7 @@ for _, room in ipairs(rooms) do
 end
 out:write("}\n")
 
-out:write("start_position = nil -- NYI\n")
+out:write('start_position = {"'..hero_pos.room..'" , '..hero_pos.x..' , '..hero_pos.y..' }\n')
 
 out:write("width = " .. map.width .. "\n")
 out:write("height = " .. map.height .. "\n")
