@@ -180,20 +180,36 @@ local function handle_tilelayer (layer)
         s = s .. "\n"
     end
     room.matrix = s
-    table.insert(rooms, room)
+    rooms[room.name] = room
 end
 
 local function handle_objectlayer (layer)
-    for _, obj in ipairs(layer.objects) do
-        if obj.name == "hero" then
-            hero_pos.room = layer.name
-            --Trying to deduce grid x and y coordiantes out of Tiled's pixel-based approach
-            --x and y are reversed due to differences in Tiled's orientation and Horus orientation
-            ---0.5 are gambs
-            hero_pos.x = map.width - (obj.y/horus_height) -0.5
-            hero_pos.y = map.height - (obj.x/horus_height) -0.5
-        end
+  local room = rooms[layer.name]
+  assert(room, "Object layer with no matching tiles layer: " .. layer.name)
+  assert(not room.objects, "Each room should have only one object layer! (for now). Bad guy: " .. room.name)
+  room.objects = {}
+
+  for _, obj in ipairs(layer.objects) do
+    assert(obj.shape == "rectangle" or obj.shape == "polygon", "Unsupported object shape: " .. obj.shape)
+
+    --Trying to deduce grid x and y coordiantes out of Tiled's pixel-based approach
+    --x and y are reversed due to differences in Tiled's orientation and Horus orientation
+    ---0.5 are gambs
+    local x = map.width - (obj.y/horus_height) -0.5
+    local y = map.height - (obj.x/horus_height) -0.5
+    if obj.name == "hero" then
+      hero_pos.room = layer.name
+      hero_pos.x = x
+      hero_pos.y = y
+    elseif obj.gid then
+      assert(horus_objects[obj.gid], "Unknown gid: " .. obj.gid)
+      table.insert(room.objects, { type = horus_objects[obj.gid], x = x - room.x, y = y - room.y })
+      
+    else
+      assert(obj.shape == "rectangle", "Polygons are NYI in horus.")
+      assert(false, "Regions are NYI in the converter.")
     end
+  end
 end
 
 --Stuff starts here
@@ -236,7 +252,7 @@ out:write('start_position = {"'..hero_pos.room..'" , '..hero_pos.x..' , '..hero_
 out:write("width = " .. map.width .. "\n")
 out:write("height = " .. map.height .. "\n")
 
-for _, room in ipairs(rooms) do
+for _, room in pairs(rooms) do
   out:write(room.name .. " = \n" .. dump(room) .. "\n")
   --out:write("  neighborhood = {}, -- NYI\n")
   --out:write("  width = " .. room.width .. ",\n")

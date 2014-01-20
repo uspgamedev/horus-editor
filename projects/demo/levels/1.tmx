@@ -7,7 +7,10 @@
  <tileset firstgid="5" name="hero" tilewidth="110" tileheight="110">
   <image source="../../../resources/images/sprite-sheet_MOD3.png" width="550" height="1100"/>
  </tileset>
- <layer name="exit" width="16" height="80">
+ <tileset firstgid="55" name="urn" tilewidth="28" tileheight="70">
+  <image source="../../../resources/images/vase.png" width="28" height="70"/>
+ </tileset>
+ <layer name="exit" width="16" height="80" visible="0">
   <properties>
    <property name="neighborhood" value="firstblood"/>
   </properties>
@@ -15,7 +18,7 @@
    eJztzTEKACAMBMEo/v/NYmsQtBJ0Bq7LkoisLLZr3NZpv/bt8n+9/rQHAAAA3tIBK50Anw==
   </data>
  </layer>
- <layer name="firstblood" width="16" height="80">
+ <layer name="firstblood" width="16" height="80" visible="0">
   <properties>
    <property name="neighborhood" value="closedcorridor, exit"/>
   </properties>
@@ -23,7 +26,7 @@
    eJzt0EEKABAARUHc/9A2RCJsmam/kF5KCABNLEtl9XzTp2F6/a7pN+v7nby52qv96g9ndwAAwH8ym1UA2Q==
   </data>
  </layer>
- <layer name="closedcorridor" width="16" height="80">
+ <layer name="closedcorridor" width="16" height="80" visible="0">
   <properties>
    <property name="neighborhood" value="opencorridor, firstblood"/>
   </properties>
@@ -31,7 +34,7 @@
    eJztzSEOACAMBMFS/v9nTDE4giCBmeRExaYRAAARrZa1ee/0uUz/T98v/9ef9QDA2wZRLgCh
   </data>
  </layer>
- <layer name="opencorridor" width="16" height="80">
+ <layer name="opencorridor" width="16" height="80" visible="0">
   <properties>
    <property name="neighborhood" value="entrance, closedcorridor"/>
   </properties>
@@ -49,5 +52,38 @@
  </layer>
  <objectgroup name="entrance" width="16" height="80">
   <object name="hero" gid="5" x="432" y="4158"/>
+  <object gid="55" x="745" y="4041"/>
+  <object gid="55" x="757" y="3979"/>
+  <object gid="55" x="750" y="4160"/>
+  <object gid="55" x="776" y="4112"/>
+  <object gid="55" x="690" y="4170"/>
+  <object gid="55" x="755" y="4219"/>
+  <object gid="55" x="728" y="3846"/>
+  <object gid="55" x="770" y="3824"/>
+  <object gid="55" x="722" y="3742"/>
+  <object gid="55" x="792" y="3692"/>
+  <object gid="55" x="769" y="3633"/>
+  <object gid="55" x="685" y="3599"/>
+  <object gid="55" x="684" y="3566"/>
+  <object gid="55" x="768" y="3576"/>
+  <object gid="55" x="730" y="3688"/>
+  <object gid="55" x="773" y="3913"/>
+  <object gid="55" x="120" y="4216"/>
+  <object gid="55" x="171" y="4211"/>
+  <object gid="55" x="105" y="4137"/>
+  <object gid="55" x="151" y="4133"/>
+  <object gid="55" x="112" y="4062"/>
+  <object gid="55" x="153" y="4049"/>
+  <object gid="55" x="117" y="3935"/>
+  <object gid="55" x="140" y="3906"/>
+  <object gid="55" x="155" y="3835"/>
+  <object gid="55" x="170" y="3792"/>
+  <object gid="55" x="123" y="3671"/>
+  <object gid="55" x="125" y="3611"/>
+  <object gid="55" x="110" y="3552"/>
+  <object gid="55" x="169" y="3555"/>
+  <object gid="55" x="173" y="3701"/>
+  <object gid="55" x="118" y="3754"/>
+  <object gid="55" x="178" y="4006"/>
  </objectgroup>
 </map>
