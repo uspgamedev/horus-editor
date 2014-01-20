@@ -1,4 +1,10 @@
 
+-- Libs
+package.path = package.path..";./lib/?.lua"
+
+require 'lux.macro.Processor'
+require 'lux.stream'
+
 -- Expected values
 local horus_height = 54
 local horus_width = 106
@@ -19,10 +25,10 @@ assert(data.tilewidth == horus_width)
 assert(data.tileheight == horus_height)
 
 --Globals that shalt be used
-local map = {}
-local horus_objects = {}
-local rooms = {}
-local hero_pos = {}
+map = {}
+horus_objects = {}
+rooms = {}
+hero_pos = {}
 
 -- Converts tileset names into horus matrix elements
 local magic_glue = {
@@ -239,24 +245,13 @@ for _, layer in ipairs(data.layers) do
     end
 end
 
+local proc = lux.macro.Processor:new {}
 
-out = io.open(output, "w")
-out:write("rooms = {\n")
-for _, room in ipairs(rooms) do
-  out:write("  { " .. room.x .. ", " .. room.y .. ', "' .. room.name .. '"},\n')
-end
-out:write("}\n")
-
-out:write('start_position = {"'..hero_pos.room..'" , '..hero_pos.x..' , '..hero_pos.y..' }\n')
-
-out:write("width = " .. map.width .. "\n")
-out:write("height = " .. map.height .. "\n")
-
-for _, room in pairs(rooms) do
-  out:write(room.name .. " = \n" .. dump(room) .. "\n")
-  --out:write("  neighborhood = {}, -- NYI\n")
-  --out:write("  width = " .. room.width .. ",\n")
-  --out:write("  height = " .. room.height .. ",\n")
-  --out:write("  matrix = \[\[\n" .. room.matrix .. "]],\n")
-  --out:write("}\n")
-end
+local input_stream = lux.stream.File:new {
+  path = "template.in.lua"
+}
+local output_stream = lux.stream.File:new {
+  path = output,
+  mode = "w"
+}
+proc:process(input_stream, output_stream)
