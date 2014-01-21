@@ -1,3 +1,4 @@
+#!/usr/bin/lua
 
 -- Libs
 package.path = package.path..";./lib/?.lua"
