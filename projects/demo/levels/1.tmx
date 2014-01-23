@@ -9,15 +9,9 @@
  </tileset>
  <tileset firstgid="55" source="../../../tiled/object_tilesets/urn.tsx"/>
  <tileset firstgid="56" source="../../../tiled/object_tilesets/switch-active.tsx"/>
- <tileset firstgid="57" name="switch-inactive" tilewidth="106" tileheight="106">
-  <image source="../../../resources/images/switch/0001.png" width="106" height="106"/>
- </tileset>
- <tileset firstgid="58" name="closed-door" tilewidth="106" tileheight="183">
-  <image source="../../../resources/images/closed-door.png" width="106" height="183"/>
- </tileset>
- <tileset firstgid="59" name="mummy_blue" tilewidth="120" tileheight="140">
-  <image source="../../../resources/images/mummy_blue_120x140.png" width="600" height="1400"/>
- </tileset>
+ <tileset firstgid="57" source="../../../tiled/object_tilesets/switch-inactive.tsx"/>
+ <tileset firstgid="58" source="../../../tiled/object_tilesets/closed-door.tsx"/>
+ <tileset firstgid="59" source="../../../tiled/object_tilesets/mummy_blue.tsx"/>
  <layer name="exit" width="16" height="80">
   <properties>
    <property name="neighborhood" value="firstblood"/>
@@ -77,19 +71,25 @@
   </object>
  </objectgroup>
  <objectgroup name="opencorridor" width="16" height="80">
+  <properties>
+   <property name="activated_switch" value="recipe"/>
+   <property name="collision_class:Switch" value="Wall"/>
+   <property name="dummyspiketrap" value="recipe"/>
+   <property name="dummyspiketrap:property" value="dummy-spike-trap"/>
+  </properties>
   <object name="dummy-spike-spawn" type="spawn-region" x="324" y="3186" width="216" height="54">
    <properties>
     <property name="amount" value="1"/>
-    <property name="what" value="dummy-spike"/>
+    <property name="what" value="dummyspiketrap"/>
    </properties>
   </object>
   <object name="dummy-spike-spawn" type="spawn-region" x="324" y="2970" width="216" height="54">
    <properties>
     <property name="amount" value="1"/>
-    <property name="what" value="dummy-spike"/>
+    <property name="what" value="dummyspiketrap"/>
    </properties>
   </object>
-  <object name="active-switch" gid="56" x="486" y="2754"/>
+  <object name="activated_switch" gid="56" x="486" y="2754"/>
  </objectgroup>
  <objectgroup name="closedcorridor" width="16" height="80">
   <object name="dummy-spike-spawn" type="spawn-region" x="324" y="2322" width="216" height="54">
