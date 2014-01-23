@@ -34,6 +34,12 @@ $:for name, recipe in pairs(room.recipes or {}) do
     },
 $:end 
   },
+
+  collision_classes = {
+$:for _, class in ipairs(room.collision_classes or {}) do
+    { "$=class.class=$", "$=class.extends=$" },
+$:end 
+  },
   
   setup = function(self)
 $:for _, obj in ipairs(room.objects or {}) do

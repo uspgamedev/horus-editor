@@ -196,13 +196,20 @@ local function handle_objectlayer (layer)
   assert(not room.objects, "Each room should have only one object layer! (for now). Bad guy: " .. room.name)
   room.objects = {}
   room.recipes = {}
+  room.collision_classes = {}
 
   for name, value in pairs(layer.properties) do
+    --Extracts information from property names in format Stuff:Morestuff
+    local left, right = name:match("^([^:]+):(.*)$")
     if value == 'recipe' then
       room.recipes[name] = {
         property = tostring(layer.properties[name..':property'] or name),
         params = tostring(layer.properties[name..':params'])
       }
+    elseif left == "collision_class" then
+      --TODO: Documentation
+      table.insert(room.collision_classes, {class = right, extends = value})
+      
     end
   end
 
@@ -220,14 +227,14 @@ local function handle_objectlayer (layer)
       hero_pos.room = layer.name
       hero_pos.x = x
       hero_pos.y = y
-    elseif room.recipes[obj.name] then
-      print "SUCCESS"
-      table.insert(room.objects, { type = obj.name, x = x - room.x, y = y - room.y })
     elseif obj.type == "spawn-region" then
       for i = 1, (obj.properties.amount or 1) + 0 do 
 	local newx, newy = x - math.random() * w, y - math.random() * h
         table.insert(room.objects, { type = obj.properties.what, x = newx - room.x, y = newy - room.y })
       end	
+    elseif room.recipes[obj.name] then
+      print "SUCCESS"
+      table.insert(room.objects, { type = obj.name, x = x - room.x, y = y - room.y })
     else
       print("WARNING", "Something is NYI")
       --assert(obj.shape == "rectangle", "Polygons are NYI in horus.")
