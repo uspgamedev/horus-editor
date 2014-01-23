@@ -214,6 +214,8 @@ local function handle_objectlayer (layer)
     ---0.5 are gambs
     local x = map.width - (obj.y/horus_height) -0.5
     local y = map.height - (obj.x/horus_height) -0.5
+    local w = obj.height/horus_height
+    local h = obj.width/horus_height
     if obj.name == "hero" then
       hero_pos.room = layer.name
       hero_pos.x = x
@@ -221,7 +223,11 @@ local function handle_objectlayer (layer)
     elseif room.recipes[obj.name] then
       print "SUCCESS"
       table.insert(room.objects, { type = obj.name, x = x - room.x, y = y - room.y })
-      
+    elseif obj.type == "spawn-region" then
+      for i = 1, (obj.properties.amount or 1) + 0 do 
+	local newx, newy = x - math.random() * w, y - math.random() * h
+        table.insert(room.objects, { type = obj.properties.what, x = newx - room.x, y = newy - room.y })
+      end	
     else
       print("WARNING", "Something is NYI")
       --assert(obj.shape == "rectangle", "Polygons are NYI in horus.")
@@ -232,6 +238,11 @@ end
 
 --Stuff starts here
 
+math.randomseed(os.time())
+
+--wasting random numbers
+math.random()
+math.random()
 
 -- Tiled orientation is inverted
 map.width = data.height
