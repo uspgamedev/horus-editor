@@ -10,7 +10,7 @@
  <tileset firstgid="55" name="urn" tilewidth="28" tileheight="70">
   <image source="../../../resources/images/vase.png" width="28" height="70"/>
  </tileset>
- <layer name="exit" width="16" height="80" visible="0">
+ <layer name="exit" width="16" height="80">
   <properties>
    <property name="neighborhood" value="firstblood"/>
   </properties>
@@ -18,7 +18,7 @@
    eJztzTEKACAMBMEo/v/NYmsQtBJ0Bq7LkoisLLZr3NZpv/bt8n+9/rQHAAAA3tIBK50Anw==
   </data>
  </layer>
- <layer name="firstblood" width="16" height="80" visible="0">
+ <layer name="firstblood" width="16" height="80">
   <properties>
    <property name="neighborhood" value="closedcorridor, exit"/>
   </properties>
@@ -26,7 +26,7 @@
    eJzt0EEKABAARUHc/9A2RCJsmam/kF5KCABNLEtl9XzTp2F6/a7pN+v7nby52qv96g9ndwAAwH8ym1UA2Q==
   </data>
  </layer>
- <layer name="closedcorridor" width="16" height="80" visible="0">
+ <layer name="closedcorridor" width="16" height="80">
   <properties>
    <property name="neighborhood" value="opencorridor, firstblood"/>
   </properties>
@@ -34,7 +34,7 @@
    eJztzSEOACAMBMFS/v9nTDE4giCBmeRExaYRAAARrZa1ee/0uUz/T98v/9ef9QDA2wZRLgCh
   </data>
  </layer>
- <layer name="opencorridor" width="16" height="80" visible="0">
+ <layer name="opencorridor" width="16" height="80">
   <properties>
    <property name="neighborhood" value="entrance, closedcorridor"/>
   </properties>
@@ -51,6 +51,10 @@
   </data>
  </layer>
  <objectgroup name="entrance" width="16" height="80">
+  <properties>
+   <property name="urn" value="recipe"/>
+   <property name="urn:property" value="urn"/>
+  </properties>
   <object name="hero" gid="5" x="432" y="4158"/>
   <object gid="55" x="745" y="4041"/>
   <object gid="55" x="757" y="3979"/>
@@ -82,8 +86,9 @@
   <object gid="55" x="125" y="3611"/>
   <object gid="55" x="110" y="3552"/>
   <object gid="55" x="169" y="3555"/>
-  <object gid="55" x="173" y="3701"/>
+  <object type="Macaco" gid="55" x="173" y="3701"/>
   <object gid="55" x="118" y="3754"/>
   <object gid="55" x="178" y="4006"/>
+  <object name="urn" gid="55" x="173" y="3701"/>
  </objectgroup>
 </map>

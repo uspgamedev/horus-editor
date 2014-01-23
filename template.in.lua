@@ -6,6 +6,8 @@ require "ugdk.math"
 require "pyramidworks.geometry"
 require "event"
 
+local vec2 = ugdk_math.Vector2D
+
 width = $=map.width=$
 height = $=map.height=$
 start_position = { "$=hero_pos.room=$", $=hero_pos.x=$, $=hero_pos.y=$ }
@@ -25,16 +27,18 @@ $=room.name=$ = {
   neighborhood = $=dump(room.neighborhood)=$,
   
   recipes = {
-$:for _, obj in pairs(horus_objects) do
-    ["$=obj=$"] = { property = "$=obj=$" },
+$:for name, recipe in pairs(room.recipes or {}) do
+    ["$=name=$"] = {
+      property = "$=recipe.property=$",
+      params = $=recipe.params=$
+    },
 $:end 
   },
   
   setup = function(self)
 $:for _, obj in ipairs(room.objects or {}) do
-    self:MakeRecipe("$=obj.type=$", ugdk_math.Vector2D($=obj.x=$, $=obj.y=$))
+    self:MakeRecipe("$=obj.type=$", vec2($=obj.x=$, $=obj.y=$))
 $:end
-    
   end,
 }
 

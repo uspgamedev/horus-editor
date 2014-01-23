@@ -195,6 +195,16 @@ local function handle_objectlayer (layer)
   assert(room, "Object layer with no matching tiles layer: " .. layer.name)
   assert(not room.objects, "Each room should have only one object layer! (for now). Bad guy: " .. room.name)
   room.objects = {}
+  room.recipes = {}
+
+  for name, value in pairs(layer.properties) do
+    if value == 'recipe' then
+      room.recipes[name] = {
+        property = tostring(layer.properties[name..':property'] or name),
+        params = tostring(layer.properties[name..':params'])
+      }
+    end
+  end
 
   for _, obj in ipairs(layer.objects) do
     assert(obj.shape == "rectangle" or obj.shape == "polygon", "Unsupported object shape: " .. obj.shape)
@@ -208,13 +218,14 @@ local function handle_objectlayer (layer)
       hero_pos.room = layer.name
       hero_pos.x = x
       hero_pos.y = y
-    elseif obj.gid then
-      assert(horus_objects[obj.gid], "Unknown gid: " .. obj.gid)
-      table.insert(room.objects, { type = horus_objects[obj.gid], x = x - room.x, y = y - room.y })
+    elseif room.recipes[obj.name] then
+      print "SUCCESS"
+      table.insert(room.objects, { type = obj.name, x = x - room.x, y = y - room.y })
       
     else
-      assert(obj.shape == "rectangle", "Polygons are NYI in horus.")
-      assert(false, "Regions are NYI in the converter.")
+      print("WARNING", "Something is NYI")
+      --assert(obj.shape == "rectangle", "Polygons are NYI in horus.")
+      --assert(false, "Regions are NYI in the converter.")
     end
   end
 end
@@ -226,13 +237,10 @@ end
 map.width = data.height
 map.height = data.width
 
-
-
 for _, tileset in ipairs(data.tilesets) do
     horus_objects[tileset.firstgid] = tileset.name
     -- We only use one image per tileset.
 end
-
 
 for _, layer in ipairs(data.layers) do
     if layer.type == "tilelayer" then
