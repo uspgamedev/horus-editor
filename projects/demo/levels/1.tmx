@@ -57,13 +57,13 @@
    <property name="urn" value="recipe"/>
   </properties>
   <object name="hero" gid="5" x="432" y="4158"/>
-  <object name="urn-spawn" type="spawn-region" x="594" y="3510" width="216" height="756">
+  <object name="urn-spawn" type="%spawn-region" x="594" y="3510" width="216" height="756">
    <properties>
     <property name="amount" value="40"/>
     <property name="what" value="urn"/>
    </properties>
   </object>
-  <object name="urn-spawn" type="spawn-region" x="54" y="3510" width="216" height="756">
+  <object name="urn-spawn" type="%spawn-region" x="54" y="3510" width="216" height="756">
    <properties>
     <property name="amount" value="40"/>
     <property name="what" value="urn"/>
@@ -77,36 +77,54 @@
    <property name="dummyspiketrap" value="recipe"/>
    <property name="dummyspiketrap:property" value="dummy-spike-trap"/>
   </properties>
-  <object name="dummy-spike-spawn" type="spawn-region" x="324" y="3186" width="216" height="54">
+  <object name="dummy-spike-spawn" type="%spawn-region" x="324" y="3186" width="216" height="54">
    <properties>
     <property name="amount" value="1"/>
     <property name="what" value="dummyspiketrap"/>
    </properties>
   </object>
-  <object name="dummy-spike-spawn" type="spawn-region" x="324" y="2970" width="216" height="54">
+  <object name="dummy-spike-spawn" type="%spawn-region" x="324" y="2970" width="216" height="54">
    <properties>
     <property name="amount" value="1"/>
     <property name="what" value="dummyspiketrap"/>
    </properties>
   </object>
-  <object name="activated_switch" gid="56" x="486" y="2754"/>
+  <object name="sample-switch" type="activated_switch" gid="56" x="486" y="2754"/>
  </objectgroup>
  <objectgroup name="closedcorridor" width="16" height="80">
-  <object name="dummy-spike-spawn" type="spawn-region" x="324" y="2322" width="216" height="54">
+  <properties>
+   <property name="dummyspiketrap" value="recipe"/>
+   <property name="dummyspiketrap:property" value="dummy-spike-trap"/>
+  </properties>
+  <object name="dummy-spike-spawn" type="%spawn-region" x="324" y="2322" width="216" height="54">
    <properties>
     <property name="amount" value="1"/>
-    <property name="what" value="dummy-spike"/>
+    <property name="what" value="dummyspiketrap"/>
    </properties>
   </object>
-  <object name="dummy-spike-spawn" type="spawn-region" x="324" y="2106" width="216" height="54">
+  <object name="dummy-spike-spawn" type="%spawn-region" x="324" y="2106" width="216" height="54">
    <properties>
     <property name="amount" value="1"/>
-    <property name="what" value="dummy-spike"/>
+    <property name="what" value="dummyspiketrap"/>
    </properties>
   </object>
-  <object name="switch" gid="57" x="486" y="1890"/>
-  <object name="door" gid="58" x="432" y="1782"/>
-  <object name="door" gid="58" x="486" y="1782"/>
+  <object name="switch" type="trigger-switch" gid="57" x="486" y="1890">
+   <properties>
+    <property name="params" value="&quot;OPEN-DOORS&quot;"/>
+   </properties>
+  </object>
+  <object gid="58" x="432" y="1782"/>
+  <object gid="58" x="486" y="1782"/>
+ </objectgroup>
+ <objectgroup name="closedcorridor:opendoors" width="16" height="80">
+  <properties>
+   <property name="door" value="recipe"/>
+   <property name="door:params" value="dir = &quot;Left&quot;"/>
+   <property name="door:property" value="closed-door"/>
+   <property name="killtrigger" value="OPEN-DOORS"/>
+  </properties>
+  <object name="left-door" type="door" gid="58" x="432" y="1782"/>
+  <object name="right-door" type="door" gid="58" x="486" y="1782"/>
  </objectgroup>
  <objectgroup name="firstblood" width="16" height="80">
   <object name="mummy" gid="59" x="270" y="1620"/>

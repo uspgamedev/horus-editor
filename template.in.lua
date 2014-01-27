@@ -25,25 +25,25 @@ $=room.name=$ = {
   height = $=room.height=$,
   matrix = $=dump(room.matrix)=$,
   neighborhood = $=dump(room.neighborhood)=$,
-  
+
   recipes = {
 $:for name, recipe in pairs(room.recipes or {}) do
     ["$=name=$"] = {
       property = "$=recipe.property=$",
-      params = $=recipe.params=$
+      params = { $=recipe.params=$ }
     },
-$:end 
+$:end
   },
 
   collision_classes = {
 $:for _, class in ipairs(room.collision_classes or {}) do
     { "$=class.class=$", "$=class.extends=$" },
-$:end 
+$:end
   },
-  
+
   setup = function(self)
 $:for _, obj in ipairs(room.objects or {}) do
-    self:MakeRecipe("$=obj.type=$", vec2($=obj.x=$, $=obj.y=$))
+    self:MakeRecipe("$=obj.recipe=$", vec2($=obj.x=$, $=obj.y=$), "$=obj.tag or ''=$")
 $:end
   end,
 }

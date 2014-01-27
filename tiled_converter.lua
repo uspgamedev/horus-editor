@@ -144,7 +144,7 @@ local function handle_tilelayer (layer)
     for i = 1, map.width do
         table.insert(columns, table_slice(layer.data, (i - 1) * map.height + 1, i * map.height))
     end
-    
+
     local first_col, last_col
     local first_row, last_row = map.height, 1
     for x, col in ipairs(columns) do
@@ -152,25 +152,25 @@ local function handle_tilelayer (layer)
         if fr then
             first_col = first_col or x
             last_col  = x
-           
+
             first_row = math.min(first_row, fr)
             last_row = math.max(last_row, lr)
         end
     end
-    
+
     local room = {
         name = layer.name,
-        
+
         -- Tiled's coordinate system starts from top and horus from bottom. shenanigans
         x = map.width - last_col,
         y = map.height - last_row,
-            
+
         width = last_col - first_col + 1,
         height = last_row - first_row + 1,
         neighborhood = {},
-        
+
     }
-    
+
     if layer.properties and layer.properties.neighborhood then
         for _, n in ipairs(split(layer.properties.neighborhood, ",")) do
             table.insert(room.neighborhood, trim(n))
@@ -178,7 +178,7 @@ local function handle_tilelayer (layer)
     else
         print("Layer '" .. layer.name .. "' missing neightborhood property.")
     end
-       
+
     local s = ""
     for y = room.height,1,-1 do
         for x = room.width,1,-1 do
@@ -191,12 +191,12 @@ local function handle_tilelayer (layer)
 end
 
 local function handle_objectlayer (layer)
-  local room = rooms[layer.name]
-  assert(room, "Object layer with no matching tiles layer: " .. layer.name)
-  assert(not room.objects, "Each room should have only one object layer! (for now). Bad guy: " .. room.name)
-  room.objects = {}
-  room.recipes = {}
-  room.collision_classes = {}
+  local layer_name, _ = layer.name:match("^([^:]+):?(.*)$")
+  local room = rooms[layer_name]
+  assert(room, "Object layer with no matching tiles layer: " .. layer_name)
+  room.objects = room.objects or {}
+  room.recipes = room.recipes or {}
+  room.collision_classes = room.collision_classes or {}
 
   for name, value in pairs(layer.properties) do
     --Extracts information from property names in format Stuff:Morestuff
@@ -209,7 +209,7 @@ local function handle_objectlayer (layer)
     elseif left == "collision_class" then
       --TODO: Documentation
       table.insert(room.collision_classes, {class = right, extends = value})
-      
+
     end
   end
 
@@ -218,25 +218,48 @@ local function handle_objectlayer (layer)
 
     --Trying to deduce grid x and y coordiantes out of Tiled's pixel-based approach
     --x and y are reversed due to differences in Tiled's orientation and Horus orientation
-    ---0.5 are gambs
-    local x = map.width - (obj.y/horus_height) -0.5
-    local y = map.height - (obj.x/horus_height) -0.5
+    -- fix and -0.5's are gambs
+    local fix = obj.gid and 0 or 0.5
+    local x = map.width - (obj.y/horus_height) - fix
+    local y = map.height - (obj.x/horus_height) - fix
     local w = obj.height/horus_height
     local h = obj.width/horus_height
+    -- Special case: hero
     if obj.name == "hero" then
-      hero_pos.room = layer.name
+      hero_pos.room = layer_name
       hero_pos.x = x
       hero_pos.y = y
-    elseif obj.type == "spawn-region" then
-      for i = 1, (obj.properties.amount or 1) + 0 do 
-	local newx, newy = x - math.random() * w, y - math.random() * h
-        table.insert(room.objects, { type = obj.properties.what, x = newx - room.x, y = newy - room.y })
-      end	
-    elseif room.recipes[obj.name] then
+    -- Random spawn regions of objects
+    -- TODO: generalize using the '%' flag
+    elseif obj.type == "%spawn-region" then
+      for i = 1, (obj.properties.amount or 1) + 0 do
+      local newx, newy = x - math.random() * w, y - math.random() * h
+        table.insert(
+          room.objects,
+          {
+            recipe = obj.properties.what,
+            x = newx - room.x,
+            y = newy - room.y,
+            tag = 'generated:'..obj.properties.what
+          }
+        )
+      end
+    -- Objects with registered recipes
+    elseif room.recipes[obj.type] then
       print "SUCCESS"
-      table.insert(room.objects, { type = obj.name, x = x - room.x, y = y - room.y })
+      print(obj.type)
+      table.insert(room.objects, { recipe = obj.type or "", x = x - room.x, y = y - room.y, tag = obj.name })
+    -- Objects with unregistered recipes
+    -- Won't consider '%' types
+    elseif obj.type and obj.type ~= "" then
+      room.recipes[obj.type] = {
+        property = tostring(obj.properties['property'] or obj.type),
+        params = tostring(obj.properties['params'])
+      }
+      table.insert(room.objects, { recipe = obj.type or "", x = x - room.x, y = y - room.y, tag = obj.name })
     else
       print("WARNING", "Something is NYI")
+      print(obj.name, obj.type)
       --assert(obj.shape == "rectangle", "Polygons are NYI in horus.")
       --assert(false, "Regions are NYI in the converter.")
     end
