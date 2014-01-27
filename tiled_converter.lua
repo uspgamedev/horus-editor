@@ -190,12 +190,17 @@ local function handle_tilelayer (layer)
     rooms[room.name] = room
 end
 
+local function is_special_name (name)
+  return string.char(name:byte(1)) == '%'
+end
+
 local function handle_objectlayer (layer)
   local layer_name, _ = layer.name:match("^([^:]+):?(.*)$")
   local room = rooms[layer_name]
   assert(room, "Object layer with no matching tiles layer: " .. layer_name)
   room.objects = room.objects or {}
   room.recipes = room.recipes or {}
+  room.events = room.events or {}
   room.collision_classes = room.collision_classes or {}
 
   for name, value in pairs(layer.properties) do
@@ -211,6 +216,20 @@ local function handle_objectlayer (layer)
       table.insert(room.collision_classes, {class = right, extends = value})
 
     end
+  end
+
+  if layer.properties.killtrigger then
+    local trigger = layer.properties.killtrigger
+    room.events[trigger] = room.events[trigger] or {}
+    local action = {
+      type = 'kill'
+    }
+    for _,obj in ipairs(layer.objects) do
+      if obj.name and not is_special_name(obj.name) then
+        table.insert(action, obj.name)
+      end
+    end
+    table.insert(room.events[trigger], action)
   end
 
   for _, obj in ipairs(layer.objects) do
@@ -257,6 +276,7 @@ local function handle_objectlayer (layer)
         params = tostring(obj.properties['params'])
       }
       table.insert(room.objects, { recipe = obj.type or "", x = x - room.x, y = y - room.y, tag = obj.name })
+    -- Unknown stuff
     else
       print("WARNING", "Something is NYI")
       print(obj.name, obj.type)
