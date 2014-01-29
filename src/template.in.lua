@@ -7,6 +7,7 @@ require "pyramidworks.geometry"
 require "event"
 
 local vec2 = ugdk_math.Vector2D
+local rect = pyramidworks_geometry.Rect
 
 width = $=map.width=$
 height = $=map.height=$
@@ -46,18 +47,27 @@ $:for _, room in pairs(rooms) do
         self:MakeRecipe("$=obj.recipe=$", vec2($=obj.x=$, $=obj.y=$), "$=obj.tag or ''=$")
       $:end
       $:for trigger, event in pairs(room.events or {}) do
-        $:for _, action in ipairs(event) do
-          event.Register(
-            "$=trigger=$",
-            function ()
+        event.Register(
+          "$=trigger=$",
+          function ()
+            $:for _, action in ipairs(event) do
               $:if action.type == 'kill' then
                 $:for _,tag in ipairs(action) do
                   self:WorldObjectByTag("$=tag=$"):Die()
                 $:end
+              $:elseif action.type == 'create' then
+                $:for _,obj in ipairs(action) do
+                  self:MakeRecipe(
+                    "$=obj.recipe=$",
+                    vec2($=obj.x=$, $=obj.y=$),
+                    "$=obj.tag or ''=$"
+                  )
+                $:end
               $:end
-            end
-          )
-        $:end
+            $:end
+            event.Clear "$=trigger=$"
+          end
+        )
       $:end
     end,
   }

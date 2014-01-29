@@ -194,15 +194,20 @@ local function is_special_name (name)
   return string.char(name:byte(1)) == '%'
 end
 
-local function handle_objectlayer (layer)
-  local layer_name, _ = layer.name:match("^([^:]+):?(.*)$")
-  local room = rooms[layer_name]
-  assert(room, "Object layer with no matching tiles layer: " .. layer_name)
-  room.objects = room.objects or {}
-  room.recipes = room.recipes or {}
-  room.events = room.events or {}
-  room.collision_classes = room.collision_classes or {}
+local function get_horus_pos (obj, room)
+  --Trying to deduce grid x and y coordiantes out of Tiled's pixel-based approach
+  --x and y are reversed due to differences in Tiled's orientation and Horus orientation
+  -- fix and -0.5's are gambs
+  local fix = obj.gid and 0 or 0.5
+  local x = map.width - (obj.y/horus_height) - fix
+  local y = map.height - (obj.x/horus_height) - fix
+  local w = obj.height/horus_height
+  local h = obj.width/horus_height
+  return x, y, w, h
+end
 
+local function populate_recipes (layer, room)
+  room.recipes = room.recipes or {}
   for name, value in pairs(layer.properties) do
     --Extracts information from property names in format Stuff:Morestuff
     local left, right = name:match("^([^:]+):(.*)$")
@@ -218,6 +223,28 @@ local function handle_objectlayer (layer)
     end
   end
 
+  for _, obj in ipairs(layer.objects) do
+    if obj.type and obj.type ~= "" and not room.recipes[obj.type] then
+      local x, y, w, h = get_horus_pos(obj)
+      room.recipes[obj.type] = {
+        property = tostring(obj.properties['property'] or obj.type),
+        params = tostring(obj.properties['params'])..
+          ", shape = rect("..w..","..h..")"
+      }
+    end
+  end
+end
+
+local function handle_objectlayer (layer)
+  local layer_name, _ = layer.name:match("^([^:]+):?(.*)$")
+  local room = rooms[layer_name]
+  assert(room, "Object layer with no matching tiles layer: " .. layer_name)
+  room.objects = room.objects or {}
+  room.events = room.events or {}
+  room.collision_classes = room.collision_classes or {}
+
+  populate_recipes(layer, room)
+
   if layer.properties.killtrigger then
     local trigger = layer.properties.killtrigger
     room.events[trigger] = room.events[trigger] or {}
@@ -225,24 +252,39 @@ local function handle_objectlayer (layer)
       type = 'kill'
     }
     for _,obj in ipairs(layer.objects) do
-      if obj.name and not is_special_name(obj.name) then
+      if obj.name and not is_special_name(obj.type) then
         table.insert(action, obj.name)
       end
     end
     table.insert(room.events[trigger], action)
   end
 
+  if layer.properties.createtrigger then
+    local trigger = layer.properties.createtrigger
+    room.events[trigger] = room.events[trigger] or {}
+    local action = {
+      type = 'create'
+    }
+    for _,obj in ipairs(layer.objects) do
+      if obj.name and not is_special_name(obj.type) then
+        local x, y, w, h = get_horus_pos(obj)
+        table.insert(action, {
+          recipe = obj.type, tag = obj.name,
+          x = x - room.x, y = y - room.y
+        })
+      end
+    end
+    table.insert(room.events[trigger], action)
+    -- exit the function here so that the layer's objects are not
+    -- created at the beginning, since they have their own trigger
+    -- for later creation
+    return
+  end
+
   for _, obj in ipairs(layer.objects) do
     assert(obj.shape == "rectangle" or obj.shape == "polygon", "Unsupported object shape: " .. obj.shape)
 
-    --Trying to deduce grid x and y coordiantes out of Tiled's pixel-based approach
-    --x and y are reversed due to differences in Tiled's orientation and Horus orientation
-    -- fix and -0.5's are gambs
-    local fix = obj.gid and 0 or 0.5
-    local x = map.width - (obj.y/horus_height) - fix
-    local y = map.height - (obj.x/horus_height) - fix
-    local w = obj.height/horus_height
-    local h = obj.width/horus_height
+    local x, y, w, h = get_horus_pos(obj)
     -- Special case: hero
     if obj.name == "hero" then
       hero_pos.room = layer_name
@@ -267,15 +309,11 @@ local function handle_objectlayer (layer)
     elseif room.recipes[obj.type] then
       print "SUCCESS"
       print(obj.type)
-      table.insert(room.objects, { recipe = obj.type or "", x = x - room.x, y = y - room.y, tag = obj.name })
-    -- Objects with unregistered recipes
-    -- Won't consider '%' types
-    elseif obj.type and obj.type ~= "" then
-      room.recipes[obj.type] = {
-        property = tostring(obj.properties['property'] or obj.type),
-        params = tostring(obj.properties['params'])
-      }
-      table.insert(room.objects, { recipe = obj.type or "", x = x - room.x, y = y - room.y, tag = obj.name })
+      table.insert(room.objects, {
+        recipe = obj.type or "",
+        x = x - room.x, y = y - room.y,
+        tag = obj.name
+      })
     -- Unknown stuff
     else
       print("WARNING", "Something is NYI")
@@ -318,7 +356,7 @@ end
 local proc = lux.macro.Processor:new {}
 
 local input_stream = lux.stream.File:new {
-  path = "template.in.lua"
+  path = "src/template.in.lua"
 }
 local output_stream = lux.stream.File:new {
   path = output,
