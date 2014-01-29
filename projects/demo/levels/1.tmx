@@ -134,6 +134,14 @@
   </object>
   <object name="door-left-again" gid="58" x="432" y="918"/>
   <object name="door-right-again" gid="58" x="486" y="918"/>
+  <object name="mummy-counter" type="%counter" x="108" y="1080" width="54" height="54">
+   <properties>
+    <property name="min" value="0"/>
+    <property name="min-triggers" value="OPEN-SESAME"/>
+    <property name="start" value="2"/>
+    <property name="trigger-down" value="MUMMY-SLAIN"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup name="firstblood:mummies" width="16" height="80">
   <properties>
@@ -141,15 +149,13 @@
   </properties>
   <object name="mummy2" type="surprise_mummy" gid="59" x="648" y="1620">
    <properties>
-    <property name="params">spritesheet = &quot;mummy_basic&quot;, life = constants.GetInt &quot;MUMMY_LIFE&quot;,
-radius = constants.GetDouble &quot;MUMMY_RADIUS&quot;, speed = constants.GetDouble &quot;MUMMY_SPEED&quot;, triggers = { &quot;door-left-again&quot;, &quot;door-right-again&quot; }</property>
+    <property name="params" value="triggers = { &quot;MUMMY-SLAIN&quot; }"/>
     <property name="property" value="trigger_mummy"/>
    </properties>
   </object>
   <object name="mummy1" type="surprise_mummy" gid="59" x="270" y="1620">
    <properties>
-    <property name="params">spritesheet = &quot;mummy_basic&quot;, life = constants.GetInt &quot;MUMMY_LIFE&quot;,
-radius = constants.GetDouble &quot;MUMMY_RADIUS&quot;, speed = constants.GetDouble &quot;MUMMY_SPEED&quot;, triggers = { &quot;door-left-again&quot;, &quot;door-right-again&quot; }</property>
+    <property name="params" value="triggers = { &quot;MUMMY-SLAIN&quot; }"/>
     <property name="property" value="trigger_mummy"/>
    </properties>
   </object>
