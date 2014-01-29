@@ -153,5 +153,17 @@ radius = constants.GetDouble &quot;MUMMY_RADIUS&quot;, speed = constants.GetDoub
     <property name="property" value="trigger_mummy"/>
    </properties>
   </object>
+  <object name="right-door-back" type="door" gid="58" x="486" y="1728">
+   <properties>
+    <property name="params" value="dir = &quot;Left&quot;"/>
+    <property name="property" value="closed-door"/>
+   </properties>
+  </object>
+  <object name="left-door-back" type="door" gid="58" x="432" y="1728">
+   <properties>
+    <property name="params" value="dir = &quot;Left&quot;"/>
+    <property name="property" value="closed-door"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
