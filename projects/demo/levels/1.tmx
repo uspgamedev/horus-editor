@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="isometric" width="16" height="80" tilewidth="106" tileheight="54">
+ <properties>
+  <property name="music" value="musics/Arabesque.ogg"/>
+ </properties>
  <tileset firstgid="1" source="../../../tiled/scenery_tilesets/wall-shortened.tsx"/>
  <tileset firstgid="2" source="../../../tiled/scenery_tilesets/ground.tsx"/>
  <tileset firstgid="3" source="../../../tiled/scenery_tilesets/wall-burnt.tsx"/>
@@ -132,9 +135,7 @@
     <property name="params" value="&quot;CREATE-MUMMIES&quot;"/>
    </properties>
   </object>
-  <object name="door-left-again" gid="58" x="432" y="918"/>
-  <object name="door-right-again" gid="58" x="486" y="918"/>
-  <object name="mummy-counter" type="%counter" x="108" y="1080" width="54" height="54">
+  <object name="mummy_counter" type="%counter" x="108" y="1080" width="54" height="54">
    <properties>
     <property name="min" value="0"/>
     <property name="min-triggers" value="OPEN-SESAME"/>
@@ -150,13 +151,13 @@
   <object name="mummy2" type="surprise_mummy" gid="59" x="648" y="1620">
    <properties>
     <property name="params" value="triggers = { &quot;MUMMY-SLAIN&quot; }"/>
-    <property name="property" value="trigger_mummy"/>
+    <property name="property" value="trigger-mummy"/>
    </properties>
   </object>
   <object name="mummy1" type="surprise_mummy" gid="59" x="270" y="1620">
    <properties>
     <property name="params" value="triggers = { &quot;MUMMY-SLAIN&quot; }"/>
-    <property name="property" value="trigger_mummy"/>
+    <property name="property" value="trigger-mummy"/>
    </properties>
   </object>
   <object name="right-door-back" type="door" gid="58" x="486" y="1728">
@@ -166,6 +167,23 @@
    </properties>
   </object>
   <object name="left-door-back" type="door" gid="58" x="432" y="1728">
+   <properties>
+    <property name="params" value="dir = &quot;Left&quot;"/>
+    <property name="property" value="closed-door"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="firstblood:doors" width="16" height="80">
+  <properties>
+   <property name="killtrigger" value="OPEN-SESAME"/>
+  </properties>
+  <object name="left-door-again" type="door" gid="58" x="486" y="918">
+   <properties>
+    <property name="params" value="dir = &quot;Left&quot;"/>
+    <property name="property" value="closed-door"/>
+   </properties>
+  </object>
+  <object name="right-door-again" type="door" gid="58" x="432" y="918">
    <properties>
     <property name="params" value="dir = &quot;Left&quot;"/>
     <property name="property" value="closed-door"/>

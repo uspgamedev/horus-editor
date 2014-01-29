@@ -12,6 +12,7 @@ local rect = pyramidworks_geometry.Rect
 width = $=map.width=$
 height = $=map.height=$
 start_position = { "$=hero_pos.room=$", $=hero_pos.x=$, $=hero_pos.y=$ }
+music = "$=map.music=$"
 
 rooms = {
   $:for _, room in pairs(rooms) do
@@ -43,6 +44,9 @@ $:for _, room in pairs(rooms) do
     },
 
     setup = function(self)
+      $:for var, val in pairs(room.vars or {}) do
+        local $=var=$ = $=val=$
+      $:end
       $:for _, obj in ipairs(room.objects or {}) do
         self:MakeRecipe("$=obj.recipe=$", vec2($=obj.x=$, $=obj.y=$), "$=obj.tag or ''=$")
       $:end
@@ -53,7 +57,9 @@ $:for _, room in pairs(rooms) do
             $:for _, action in ipairs(event) do
               $=make_action(action)=$
             $:end
-            event.Clear "$=trigger=$"
+            $:if not event.repeats then
+              event.Clear "$=trigger=$"
+            $:end
           end
         )
       $:end

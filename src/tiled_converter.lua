@@ -27,7 +27,9 @@ assert(data.tilewidth == horus_width)
 assert(data.tileheight == horus_height)
 
 --Globals that shalt be used
-map = {}
+map = {
+  music = data.properties.music
+}
 horus_objects = {}
 rooms = {}
 hero_pos = {}
@@ -225,7 +227,8 @@ local function populate_recipes (layer, room)
   end
 
   for _, obj in ipairs(layer.objects) do
-    if obj.type and obj.type ~= "" and not room.recipes[obj.type] then
+    if obj.type and obj.type ~= "" and not is_special_name(obj.type)
+       and not room.recipes[obj.type] then
       local x, y, w, h = get_horus_pos(obj)
       room.recipes[obj.type] = {
         property = tostring(obj.properties['property'] or obj.type),
@@ -243,6 +246,7 @@ local function handle_objectlayer (layer)
   room.objects = room.objects or {}
   room.events = room.events or {}
   room.collision_classes = room.collision_classes or {}
+  room.vars = room.vars or {}
 
   populate_recipes(layer, room)
 
@@ -307,12 +311,34 @@ local function handle_objectlayer (layer)
         )
       end
     elseif obj.type == "%counter" then
-      --var com nome do bijeto, valor inicial
-      --valmax, valmin
-      --evento que soma -> checa trigger max
-      --evento que subtrai -> checa trigger min
-      -- ^ vai no template na real
-    -- Objects with registered recipes
+      room.vars[obj.name] = tonumber(obj.properties.start)
+      if obj.properties["trigger-up"] then
+        local triggerup = obj.properties["trigger-up"]
+        room.events[triggerup] = room.events[triggerup] or {}
+        room.events[triggerup].repeats = true
+        local actionup = {
+          type = "countup",
+          var = obj.name,
+          max = tonumber(obj.properties.max),
+          event = triggerup,
+          triggers = obj.properties["max-triggers"],
+        }
+        table.insert(room.events[triggerup], actionup)
+      end
+      if obj.properties["trigger-down"] then
+        local triggerdown = obj.properties["trigger-down"]
+        room.events[triggerdown] = room.events[triggerdown] or {}
+        room.events[triggerdown].repeats = true
+        local actiondown = {
+          type = "countdown",
+          var = obj.name,
+          min = tonumber(obj.properties.min),
+          event = triggerdown,
+          triggers = obj.properties["min-triggers"],
+        }
+        table.insert(room.events[triggerdown], actiondown)
+      end
+   -- Objects with registered recipes
     elseif room.recipes[obj.type] then
       print "SUCCESS"
       print(obj.type)
