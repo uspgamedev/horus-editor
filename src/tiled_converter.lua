@@ -1,10 +1,11 @@
 #!/usr/bin/lua
 
 -- Libs
-package.path = package.path..";./lib/?.lua"
+package.path = package.path..";./lib/?.lua;src/?.lua"
 
 require 'lux.macro.Processor'
 require 'lux.stream'
+require 'macros'
 
 -- Expected values
 local horus_height = 54
@@ -305,6 +306,12 @@ local function handle_objectlayer (layer)
           }
         )
       end
+    elseif obj.type == "%counter" then
+      --var com nome do bijeto, valor inicial
+      --valmax, valmin
+      --evento que soma -> checa trigger max
+      --evento que subtrai -> checa trigger min
+      -- ^ vai no template na real
     -- Objects with registered recipes
     elseif room.recipes[obj.type] then
       print "SUCCESS"

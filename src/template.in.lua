@@ -51,19 +51,7 @@ $:for _, room in pairs(rooms) do
           "$=trigger=$",
           function ()
             $:for _, action in ipairs(event) do
-              $:if action.type == 'kill' then
-                $:for _,tag in ipairs(action) do
-                  self:WorldObjectByTag("$=tag=$"):Die()
-                $:end
-              $:elseif action.type == 'create' then
-                $:for _,obj in ipairs(action) do
-                  self:MakeRecipe(
-                    "$=obj.recipe=$",
-                    vec2($=obj.x=$, $=obj.y=$),
-                    "$=obj.tag or ''=$"
-                  )
-                $:end
-              $:end
+              $=make_action(action)=$
             $:end
             event.Clear "$=trigger=$"
           end
