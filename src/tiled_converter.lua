@@ -45,40 +45,6 @@ local magic_glue = {
 
 --Functions that shalt be used
 
-local dumpdata = {}
-
-function dump (value, ident)
-  ident = ident or ''
-  local t = type(value)
-  if dumpdata['type'..t] then
-    return dumpdata['type'..t](value, ident)
-  end
-  return tostring(value)
-end
-
-function dumpdata.typestring (value)
-  return "[["..value.."]]"
-end
-function dumpdata.typetable (value, ident)
-  if value['__dumpfunction'] then
-    return value['__dumpfunction'](value, ident)
-  end
-  local str = (value.__type or "").."{".."\n"
-  for k,v in pairs(value) do
-    if type(k) == 'string' then
-      if k[1] ~= '_' then
-        str = str..ident..'  '..'["'..k..'"] = '..dump(v, ident .. '  ')..",\n"
-      end
-    else
-      str = str..ident..'  '.."["..k.."] = "..dump(v, ident .. '  ')..",\n"
-    end
-  end
-  return str..ident.."}"
-end
-function dumpdata.typefunction (value)
-  return '"*FUNCTION*"'
-end
-
 function table_slice (values,i1,i2) -- http://snippets.luacode.org/?p=snippets/Table_Slice_116
     local res = {}
     local n = #values
@@ -197,7 +163,7 @@ local function is_special_name (name)
   return string.char(name:byte(1)) == '%'
 end
 
-local function get_horus_pos (obj, room)
+local function get_horus_pos (obj)
   --Trying to deduce grid x and y coordiantes out of Tiled's pixel-based approach
   --x and y are reversed due to differences in Tiled's orientation and Horus orientation
   -- fix and -0.5's are gambs
@@ -342,9 +308,14 @@ local function handle_objectlayer (layer)
     elseif room.recipes[obj.type] then
       print "SUCCESS"
       print(obj.type)
+      local the_x, the_y = x - room.x, y - room.y
+      if not obj.gid then
+        the_x = the_x - w/2
+        the_y = the_y - h/2
+      end
       table.insert(room.objects, {
         recipe = obj.type or "",
-        x = x - room.x, y = y - room.y,
+        x = the_x, y = the_y,
         tag = obj.name
       })
     -- Unknown stuff

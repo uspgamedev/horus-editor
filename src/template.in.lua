@@ -16,7 +16,7 @@ music = "$=map.music=$"
 
 rooms = {
   $:for _, room in pairs(rooms) do
-    { $=room.x=$, $=room.y=$, $=dump(room.name)=$ },
+    { $=room.x=$, $=room.y=$, "$=room.name=$" },
   $:end
 }
 
@@ -25,8 +25,12 @@ $:for _, room in pairs(rooms) do
   $=room.name=$ = {
     width = $=room.width=$,
     height = $=room.height=$,
-    matrix = $=dump(room.matrix)=$,
-    neighborhood = $=dump(room.neighborhood)=$,
+    matrix = $="[[\n"..room.matrix.."]]"=$,
+    neighborhood = {
+      $:for _,n in ipairs(room.neighborhood) do
+        "$=n=$",
+      $:end:$
+    },
 
     recipes = {
       $:for name, recipe in pairs(room.recipes or {}) do
