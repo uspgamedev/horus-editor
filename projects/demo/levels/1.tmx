@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="isometric" width="16" height="80" tilewidth="106" tileheight="54">
+<map version="1.0" orientation="isometric" width="16" height="96" tilewidth="106" tileheight="54">
  <properties>
   <property name="music" value="musics/Arabesque.ogg"/>
  </properties>
@@ -15,86 +15,111 @@
  <tileset firstgid="57" source="../../../tiled/object_tilesets/switch-inactive.tsx"/>
  <tileset firstgid="58" source="../../../tiled/object_tilesets/closed-door.tsx"/>
  <tileset firstgid="59" source="../../../tiled/object_tilesets/mummy_blue.tsx"/>
- <layer name="exit" width="16" height="80">
+ <layer name="exit" width="16" height="96">
   <properties>
    <property name="neighborhood" value="firstblood"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztzTEKACAMBMEo/v/NYmsQtBJ0Bq7LkoisLLZr3NZpv/bt8n+9/rQHAAAA3tIBK50Anw==
+   eJztzTEKACAMBMEo/v/NYmsQtBJ0Bq7LkoisLLZr3NZpv/bt8n+9/rQHAAAAAN7QAae7AJ8=
   </data>
  </layer>
- <layer name="firstblood" width="16" height="80">
+ <layer name="firstblood" width="16" height="96">
   <properties>
    <property name="neighborhood" value="closedcorridor, exit"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt0EEKABAARUHc/9A2RCJsmam/kF5KCABNLEtl9XzTp2F6/a7pN+v7nby52qv96g9ndwAAwH8ym1UA2Q==
+   eJzt0EEKABAARUHc/9A2RCJsmam/kF5KCABNLEtl9XzTp2F6/a7pN+v7nby52qv96g9ndwAAAMA/Mv+CANk=
   </data>
  </layer>
- <layer name="closedcorridor" width="16" height="80">
+ <layer name="closedcorridor" width="16" height="96">
   <properties>
-   <property name="neighborhood" value="opencorridor, firstblood"/>
+   <property name="neighborhood" value="hall, firstblood"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztzSEOACAMBMFS/v9nTDE4giCBmeRExaYRAAARrZa1ee/0uUz/T98v/9ef9QDA2wZRLgCh
+   eJztzSEOACAMBMFS/v9nTDE4giCBmeRExaYRAAARrZa1ee/0uUz/T98v/9ef9QAAwJsG1UwAoQ==
   </data>
  </layer>
- <layer name="opencorridor" width="16" height="80">
+ <layer name="hall" width="16" height="96">
   <properties>
-   <property name="neighborhood" value="entrance, closedcorridor"/>
+   <property name="neighborhood" value="opencorridor, closedcorridor"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztzSEOACAMBMFS/v9nTDE4gkB0JjlRsWkEAADQ2ahlbd83fR7T9+nn5//6tx7oYQHRAQCh
+   eJzt0zkKACAMBMDo/x9tL8ajsBBnYBvZwDZGAAAAvyhJapesN+ru5tb9yZv99r++f/UvZx0A4D8NtEMBww==
   </data>
  </layer>
- <layer name="entrance" width="16" height="80">
+ <layer name="opencorridor" width="16" height="96">
+  <properties>
+   <property name="neighborhood" value="entrance, hall"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzSEOACAMBMFS/v9nTDE4gkB0JjlRsWkEAAAA0NGoZW3fN30e0/fp5+f/+rce6GEB1QEAoQ==
+  </data>
+ </layer>
+ <layer name="entrance" width="16" height="96">
   <properties>
    <property name="neighborhood" value="opencorridor"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJztzjEKACAMA8Dq/x/tLhYq4qDcQZaSQiIAAACA37UkfUrWW3WrufW/c7Pf/tf3n2QAny0BwQ==
+   eJztzjEKACAMA8Dq/x/tLhYq4qDcQZaSQiIAAAAAgF+1JH1K1lt1q7n1v3Oz3/7X959kAKMtAcE=
   </data>
  </layer>
- <objectgroup name="entrance" width="16" height="80">
+ <objectgroup name="entrance" width="16" height="96">
   <properties>
    <property name="urn" value="recipe"/>
   </properties>
-  <object name="hero" type="%hero" gid="5" x="432" y="4158"/>
-  <object name="urn-spawn" type="%spawnregion" x="621" y="3537" width="162" height="702">
+  <object name="hero" type="%hero" gid="5" x="432" y="5022"/>
+  <object name="urn-spawn" type="%spawnregion" x="621" y="4401" width="162" height="702">
    <properties>
     <property name="amount" value="40"/>
     <property name="what" value="urn"/>
    </properties>
   </object>
-  <object name="urn-spawn" type="%spawnregion" x="81" y="3537" width="162" height="702">
+  <object name="urn-spawn" type="%spawnregion" x="81" y="4401" width="162" height="702">
    <properties>
     <property name="amount" value="40"/>
     <property name="what" value="urn"/>
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="opencorridor" width="16" height="80">
+ <objectgroup name="opencorridor" width="16" height="96">
   <properties>
    <property name="activated_switch" value="recipe"/>
    <property name="collision_class:Switch" value="Wall"/>
    <property name="dummyspiketrap" value="recipe"/>
    <property name="dummyspiketrap:property" value="dummy-spike-trap"/>
   </properties>
-  <object name="dummy-spike-spawn" type="%spawnregion" x="351" y="3186" width="162" height="54">
+  <object name="dummy-spike-spawn" type="%spawnregion" x="351" y="4104" width="162" height="54">
    <properties>
     <property name="amount" value="1"/>
     <property name="what" value="dummyspiketrap"/>
    </properties>
   </object>
-  <object name="dummy-spike-spawn" type="%spawnregion" x="351" y="2970" width="162" height="54">
+  <object name="dummy-spike-spawn" type="%spawnregion" x="351" y="3726" width="162" height="54">
    <properties>
     <property name="amount" value="1"/>
     <property name="what" value="dummyspiketrap"/>
    </properties>
   </object>
-  <object name="sample-switch" type="activated_switch" gid="56" x="486" y="2754"/>
+  <object name="sample-switch" type="activated_switch" gid="56" x="486" y="3618"/>
  </objectgroup>
- <objectgroup name="closedcorridor" width="16" height="80">
+ <objectgroup name="hall" width="16" height="96">
+  <properties>
+   <property name="urn" value="recipe"/>
+  </properties>
+  <object name="urn-spawn" type="%spawnregion" x="81" y="2673" width="162" height="702">
+   <properties>
+    <property name="amount" value="40"/>
+    <property name="what" value="urn"/>
+   </properties>
+  </object>
+  <object name="urn-spawn" type="%spawnregion" x="621" y="2673" width="162" height="702">
+   <properties>
+    <property name="amount" value="40"/>
+    <property name="what" value="urn"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="closedcorridor" width="16" height="96">
   <properties>
    <property name="dummyspiketrap" value="recipe"/>
    <property name="dummyspiketrap:property" value="dummy-spike-trap"/>
@@ -117,7 +142,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="closedcorridor:opendoors" width="16" height="80">
+ <objectgroup name="closedcorridor:opendoors" width="16" height="96">
   <properties>
    <property name="door" value="recipe"/>
    <property name="door:params" value="dir = &quot;Left&quot;"/>
@@ -127,7 +152,7 @@
   <object name="left-door" type="door" gid="58" x="432" y="1782"/>
   <object name="right-door" type="door" gid="58" x="486" y="1782"/>
  </objectgroup>
- <objectgroup name="firstblood" width="16" height="80">
+ <objectgroup name="firstblood" width="16" height="96">
   <object name="mummy-spawn-trigger" type="trigger-region" x="162" y="1512" width="540" height="54">
    <properties>
     <property name="params" value="&quot;CREATE-MUMMIES&quot;"/>
@@ -142,7 +167,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="firstblood:mummies" width="16" height="80">
+ <objectgroup name="firstblood:mummies" width="16" height="96">
   <properties>
    <property name="createtrigger" value="CREATE-MUMMIES"/>
   </properties>
@@ -171,7 +196,7 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="firstblood:doors" width="16" height="80">
+ <objectgroup name="firstblood:doors" width="16" height="96">
   <properties>
    <property name="killtrigger" value="OPEN-SESAME"/>
   </properties>
