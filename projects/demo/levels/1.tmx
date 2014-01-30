@@ -116,8 +116,6 @@
     <property name="params" value="&quot;OPEN-DOORS&quot;"/>
    </properties>
   </object>
-  <object gid="58" x="432" y="1782"/>
-  <object gid="58" x="486" y="1782"/>
  </objectgroup>
  <objectgroup name="closedcorridor:opendoors" width="16" height="80">
   <properties>
@@ -190,5 +188,4 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup name="firstblood:timer" width="16" height="80"/>
 </map>
