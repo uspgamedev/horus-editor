@@ -126,17 +126,7 @@ local function populate_recipes (layer, room)
   end
 end
 
-local function handle_objectlayer (layer)
-  local layer_name, _ = layer.name:match("^([^:]+):?(.*)$")
-  local room = rooms[layer_name]
-  assert(room, "Object layer with no matching tiles layer: " .. layer_name)
-  room.objects = room.objects or {}
-  room.events = room.events or {}
-  room.collision_classes = room.collision_classes or {}
-  room.vars = room.vars or {}
-
-  populate_recipes(layer, room)
-
+local function check_triggers (layer, room)
   if layer.properties.killtrigger then
     local trigger = layer.properties.killtrigger
     room.events[trigger] = room.events[trigger] or {}
@@ -170,6 +160,22 @@ local function handle_objectlayer (layer)
     -- exit the function here so that the layer's objects are not
     -- created at the beginning, since they have their own trigger
     -- for later creation
+    return 'NOT_YET'
+  end
+  return 'CARRY_ON'
+end
+
+local function handle_objectlayer (layer)
+  local layer_name, _ = layer.name:match("^([^:]+):?(.*)$")
+  local room = rooms[layer_name]
+  assert(room, "Object layer with no matching tiles layer: " .. layer_name)
+  room.objects = room.objects or {}
+  room.events = room.events or {}
+  room.collision_classes = room.collision_classes or {}
+  room.vars = room.vars or {}
+
+  populate_recipes(layer, room)
+  if check_triggers(layer, room) == 'NOT_YET' then
     return
   end
 
