@@ -33,11 +33,19 @@ require 'lux.macro.Specification'
 Processor = lux.object.new {}
 
 Processor.__init = {
-  spec = Specification:new{}
+  spec = Specification:new {}
 }
 
+local generator_env = {}
+
+function generator_env.mq (str)
+  return "[[" .. str .. "]]"
+end
+
 local function makeDirectiveEnvironment (outstream)
-  return setmetatable({ output = outstream }, { __index = getfenv(0) })
+  local env = lux.object.clone(generator_env)
+  env.output = outstream
+  return setmetatable(env, { __index = getfenv(0) })
 end
 
 function Processor:handleDirective (mod, code)
@@ -45,6 +53,8 @@ function Processor:handleDirective (mod, code)
     return [[output:send(]] .. code .. ")\n"
   elseif mod == ':' then
     return code.."\n"
+  elseif mod == '|' then
+    return "output:send('[[' .. " .. code .. " .. ']]')\n"
   end
   return ''
 end
@@ -52,7 +62,7 @@ end
 function Processor:process (instream, outstream)
   local code = [[assert(output)]].."\n"
   local count = 1
-  local str = (instream:receive "*a") .. "\n"
+  local str = instream:receive "*a"
   for input, mod, directive, step in self.spec:iterateDirectives(str) do
     code = code .. [[output:send ]] .. "[[\n" .. input .. "]]\n"
     code = code .. self:handleDirective(mod, directive)
