@@ -65,7 +65,9 @@ function find_first_last_row(t)
 end
 
 function is_special_name (name)
-  return string.char(name:byte(1)) == '%'
+  if string.char(name:byte(1)) == '%' then
+    return name:match "^%%(.+)$"
+  end
 end
 
 function get_horus_pos (obj)

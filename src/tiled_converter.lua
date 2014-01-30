@@ -7,6 +7,7 @@ require 'lux.macro.Processor'
 require 'lux.stream'
 require 'macros'
 require 'aux'
+require 'special_handlers'
 
 -- Expected values
 horus_height = 54
@@ -182,57 +183,12 @@ local function handle_objectlayer (layer)
   for _, obj in ipairs(layer.objects) do
     assert(obj.shape == "rectangle" or obj.shape == "polygon", "Unsupported object shape: " .. obj.shape)
 
-    local x, y, w, h = get_horus_pos(obj)
+    local special = is_special_name(obj.type)
     -- Special case: hero
-    if obj.name == "hero" then
-      hero_pos.room = layer_name
-      hero_pos.x = x
-      hero_pos.y = y
-    -- Random spawn regions of objects
-    -- TODO: generalize using the '%' flag
-    elseif obj.type == "%spawn-region" then
-      for i = 1, (obj.properties.amount or 1) + 0 do
-      local newx, newy = x - math.random() * w, y - math.random() * h
-        table.insert(
-          room.objects,
-          {
-            recipe = obj.properties.what,
-            x = newx - room.x,
-            y = newy - room.y,
-            tag = 'generated:'..obj.properties.what
-          }
-        )
-      end
-    elseif obj.type == "%counter" then
-      room.vars[obj.name] = tonumber(obj.properties.start)
-      if obj.properties["trigger-up"] then
-        local triggerup = obj.properties["trigger-up"]
-        room.events[triggerup] = room.events[triggerup] or {}
-        room.events[triggerup].repeats = true
-        local actionup = {
-          type = "countup",
-          var = obj.name,
-          max = tonumber(obj.properties.max),
-          event = triggerup,
-          triggers = obj.properties["max-triggers"],
-        }
-        table.insert(room.events[triggerup], actionup)
-      end
-      if obj.properties["trigger-down"] then
-        local triggerdown = obj.properties["trigger-down"]
-        room.events[triggerdown] = room.events[triggerdown] or {}
-        room.events[triggerdown].repeats = true
-        local actiondown = {
-          type = "countdown",
-          var = obj.name,
-          min = tonumber(obj.properties.min),
-          event = triggerdown,
-          triggers = obj.properties["min-triggers"],
-        }
-        table.insert(room.events[triggerdown], actiondown)
-      end
-   -- Objects with registered recipes
+    if special then
+      special_handlers[special] (layer, layer_name, room, obj)
     elseif room.recipes[obj.type] then
+      local x, y, w, h = get_horus_pos(obj)
       print "SUCCESS"
       print(obj.type)
       local the_x, the_y = x - room.x, y - room.y
