@@ -60,13 +60,13 @@
    <property name="urn" value="recipe"/>
   </properties>
   <object name="hero" type="%hero" gid="5" x="432" y="4158"/>
-  <object name="urn-spawn" type="%spawnregion" x="594" y="3510" width="216" height="756">
+  <object name="urn-spawn" type="%spawnregion" x="621" y="3537" width="162" height="702">
    <properties>
     <property name="amount" value="40"/>
     <property name="what" value="urn"/>
    </properties>
   </object>
-  <object name="urn-spawn" type="%spawnregion" x="54" y="3510" width="216" height="756">
+  <object name="urn-spawn" type="%spawnregion" x="81" y="3537" width="162" height="702">
    <properties>
     <property name="amount" value="40"/>
     <property name="what" value="urn"/>
@@ -80,13 +80,13 @@
    <property name="dummyspiketrap" value="recipe"/>
    <property name="dummyspiketrap:property" value="dummy-spike-trap"/>
   </properties>
-  <object name="dummy-spike-spawn" type="%spawnregion" x="324" y="3186" width="216" height="54">
+  <object name="dummy-spike-spawn" type="%spawnregion" x="351" y="3186" width="162" height="54">
    <properties>
     <property name="amount" value="1"/>
     <property name="what" value="dummyspiketrap"/>
    </properties>
   </object>
-  <object name="dummy-spike-spawn" type="%spawnregion" x="324" y="2970" width="216" height="54">
+  <object name="dummy-spike-spawn" type="%spawnregion" x="351" y="2970" width="162" height="54">
    <properties>
     <property name="amount" value="1"/>
     <property name="what" value="dummyspiketrap"/>
@@ -99,13 +99,13 @@
    <property name="dummyspiketrap" value="recipe"/>
    <property name="dummyspiketrap:property" value="dummy-spike-trap"/>
   </properties>
-  <object name="dummy-spike-spawn" type="%spawnregion" x="324" y="2322" width="216" height="54">
+  <object name="dummy-spike-spawn" type="%spawnregion" x="351" y="2322" width="162" height="54">
    <properties>
     <property name="amount" value="1"/>
     <property name="what" value="dummyspiketrap"/>
    </properties>
   </object>
-  <object name="dummy-spike-spawn" type="%spawnregion" x="324" y="2106" width="216" height="54">
+  <object name="dummy-spike-spawn" type="%spawnregion" x="351" y="2106" width="162" height="54">
    <properties>
     <property name="amount" value="1"/>
     <property name="what" value="dummyspiketrap"/>
@@ -130,7 +130,7 @@
   <object name="right-door" type="door" gid="58" x="486" y="1782"/>
  </objectgroup>
  <objectgroup name="firstblood" width="16" height="80">
-  <object name="mummy-spawn-trigger" type="trigger-region" x="324" y="1296" width="216" height="54">
+  <object name="mummy-spawn-trigger" type="trigger-region" x="162" y="1512" width="540" height="54">
    <properties>
     <property name="params" value="&quot;CREATE-MUMMIES&quot;"/>
    </properties>
@@ -190,4 +190,5 @@
    </properties>
   </object>
  </objectgroup>
+ <objectgroup name="firstblood:timer" width="16" height="80"/>
 </map>

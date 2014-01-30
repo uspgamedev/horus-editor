@@ -184,7 +184,6 @@ local function handle_objectlayer (layer)
     assert(obj.shape == "rectangle" or obj.shape == "polygon", "Unsupported object shape: " .. obj.shape)
 
     local special = is_special_name(obj.type)
-    -- Special case: hero
     if special then
       special_handlers[special] (layer, layer_name, room, obj)
     elseif room.recipes[obj.type] then
