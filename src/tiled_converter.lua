@@ -205,13 +205,13 @@ end
 local function are_neighbors(room, other)
   if (room.x + room.width == other.x or
       other.x + other.width == room.x) and
-     (room.y + room.height >= other.y  and
-      room.y <= other.y + other.height)
+     (room.y + room.height  > other.y  and
+      room.y < other.y + other.height)
      or
      (room.y + room.height == other.y or
       other.y + other.height == room.y) and
-     (room.x + room.width >= other.x  and
-      room.x <= other.x + other.width) then
+     (room.x + room.width > other.x  and
+      room.x < other.x + other.width) then
      return true
    end
 end
