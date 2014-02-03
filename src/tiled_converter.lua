@@ -78,14 +78,6 @@ local function handle_tilelayer (layer)
 
     }
 
-    if layer.properties and layer.properties.neighborhood then
-        for _, n in ipairs(split(layer.properties.neighborhood, ",")) do
-            table.insert(room.neighborhood, trim(n))
-        end
-    else
-        print("Layer '" .. layer.name .. "' missing neightborhood property.")
-    end
-
     local s = ""
     for y = room.height,1,-1 do
         for x = room.width,1,-1 do
@@ -210,6 +202,15 @@ local function handle_objectlayer (layer)
   end
 end
 
+local function are_neighbors(room, other)
+  if room.x + room.width == other.x or
+     other.x + other.width == room.x or
+     room.y + room.height == other.y or
+     other.y + other.height == room.y then
+     return true
+   end
+end
+
 --Stuff starts here
 
 math.randomseed(os.time())
@@ -237,6 +238,18 @@ for _, layer in ipairs(data.layers) do
     if layer.type == "objectgroup" then
         handle_objectlayer(layer)
     end
+end
+
+
+--QUADRATIC STUFF
+--Shouldn't matter because # of rooms should never be high enough for this
+--to be unnaceptably slow
+for _, room in pairs(rooms) do
+  for _, other in pairs(rooms) do
+    if are_neighbors(room, other) then
+      table.insert(room.neighborhood, other.name)
+    end
+  end
 end
 
 local proc = lux.macro.Processor:new {}
