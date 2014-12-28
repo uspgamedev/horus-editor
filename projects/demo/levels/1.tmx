@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="isometric" width="16" height="96" tilewidth="106" tileheight="54">
+ <properties>
+  <property name="music" value="musics/Arabesque.ogg"/>
+ </properties>
+ <tileset firstgid="1" source="../../../tiled/scenery_tilesets/wall-shortened.tsx"/>
+ <tileset firstgid="2" source="../../../tiled/scenery_tilesets/ground.tsx"/>
+ <tileset firstgid="3" source="../../../tiled/scenery_tilesets/wall-burnt.tsx"/>
+ <tileset firstgid="4" source="../../../tiled/object_tilesets/stairs.tsx"/>
+ <tileset firstgid="5" name="hero" tilewidth="110" tileheight="110">
+  <image source="../../../resources/images/sprite-sheet_MOD3.png" width="550" height="1100"/>
+ </tileset>
+ <tileset firstgid="55" source="../../../tiled/object_tilesets/urn.tsx"/>
+ <tileset firstgid="56" source="../../../tiled/object_tilesets/switch-active.tsx"/>
+ <tileset firstgid="57" source="../../../tiled/object_tilesets/switch-inactive.tsx"/>
+ <tileset firstgid="58" source="../../../tiled/object_tilesets/closed-door.tsx"/>
+ <tileset firstgid="59" source="../../../tiled/object_tilesets/mummy_blue.tsx"/>
+ <layer name="exit" width="16" height="96">
+  <properties>
+   <property name="neighborhood" value="firstblood"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzTEKACAMBMEo/v/NYmsQtBJ0Bq7LkoisLLZr3NZpv/bt8n+9/rQHAAAAAN7QAae7AJ8=
+  </data>
+ </layer>
+ <layer name="firstblood" width="16" height="96">
+  <properties>
+   <property name="neighborhood" value="closedcorridor, exit"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt0EEKABAARUHc/9A2RCJsmam/kF5KCABNLEtl9XzTp2F6/a7pN+v7nby52qv96g9ndwAAAMA/Mv+CANk=
+  </data>
+ </layer>
+ <layer name="closedcorridor" width="16" height="96">
+  <properties>
+   <property name="neighborhood" value="hall, firstblood"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzSEOACAMBMFS/v9nTDE4giCBmeRExaYRAAARrZa1ee/0uUz/T98v/9ef9QAAwJsG1UwAoQ==
+  </data>
+ </layer>
+ <layer name="hall" width="16" height="96">
+  <properties>
+   <property name="neighborhood" value="opencorridor, closedcorridor"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt0zkKACAMBMDo/x9tL8ajsBBnYBvZwDZGAAAAvyhJapesN+ru5tb9yZv99r++f/UvZx0A4D8NtEMBww==
+  </data>
+ </layer>
+ <layer name="opencorridor" width="16" height="96">
+  <properties>
+   <property name="neighborhood" value="entrance, hall"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzSEOACAMBMFS/v9nTDE4gkB0JjlRsWkEAAAA0NGoZW3fN30e0/fp5+f/+rce6GEB1QEAoQ==
+  </data>
+ </layer>
+ <layer name="entrance" width="16" height="96">
+  <properties>
+   <property name="neighborhood" value="opencorridor"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzjEKACAMA8Dq/x/tLhYq4qDcQZaSQiIAAAAAgF+1JH1K1lt1q7n1v3Oz3/7X959kAKMtAcE=
+  </data>
+ </layer>
+ <objectgroup name="entrance" width="16" height="96">
+  <properties>
+   <property name="urn" value="recipe"/>
+  </properties>
+  <object name="hero" type="%hero" gid="5" x="432" y="5022"/>
+  <object name="urn-spawn" type="%spawnregion" x="621" y="4401" width="162" height="702">
+   <properties>
+    <property name="amount" value="40"/>
+    <property name="what" value="urn"/>
+   </properties>
+  </object>
+  <object name="urn-spawn" type="%spawnregion" x="81" y="4401" width="162" height="702">
+   <properties>
+    <property name="amount" value="40"/>
+    <property name="what" value="urn"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="opencorridor" width="16" height="96">
+  <properties>
+   <property name="activated_switch" value="recipe"/>
+   <property name="collision_class:Switch" value="Wall"/>
+   <property name="dummyspiketrap" value="recipe"/>
+   <property name="dummyspiketrap:property" value="dummy-spike-trap"/>
+  </properties>
+  <object name="dummy-spike-spawn" type="%spawnregion" x="351" y="4104" width="162" height="54">
+   <properties>
+    <property name="amount" value="1"/>
+    <property name="what" value="dummyspiketrap"/>
+   </properties>
+  </object>
+  <object name="dummy-spike-spawn" type="%spawnregion" x="351" y="3726" width="162" height="54">
+   <properties>
+    <property name="amount" value="1"/>
+    <property name="what" value="dummyspiketrap"/>
+   </properties>
+  </object>
+  <object name="sample-switch" type="activated_switch" gid="56" x="486" y="3618"/>
+ </objectgroup>
+ <objectgroup name="hall" width="16" height="96">
+  <properties>
+   <property name="urn" value="recipe"/>
+  </properties>
+  <object name="urn-spawn" type="%spawnregion" x="81" y="2673" width="162" height="702">
+   <properties>
+    <property name="amount" value="40"/>
+    <property name="what" value="urn"/>
+   </properties>
+  </object>
+  <object name="urn-spawn" type="%spawnregion" x="621" y="2673" width="162" height="702">
+   <properties>
+    <property name="amount" value="40"/>
+    <property name="what" value="urn"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="closedcorridor" width="16" height="96">
+  <properties>
+   <property name="dummyspiketrap" value="recipe"/>
+   <property name="dummyspiketrap:property" value="dummy-spike-trap"/>
+  </properties>
+  <object name="dummy-spike-spawn" type="%spawnregion" x="351" y="2322" width="162" height="54">
+   <properties>
+    <property name="amount" value="1"/>
+    <property name="what" value="dummyspiketrap"/>
+   </properties>
+  </object>
+  <object name="dummy-spike-spawn" type="%spawnregion" x="351" y="2106" width="162" height="54">
+   <properties>
+    <property name="amount" value="1"/>
+    <property name="what" value="dummyspiketrap"/>
+   </properties>
+  </object>
+  <object name="switch" type="trigger-switch" gid="57" x="486" y="1890">
+   <properties>
+    <property name="params" value="&quot;OPEN-DOORS&quot;"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="closedcorridor:opendoors" width="16" height="96">
+  <properties>
+   <property name="door" value="recipe"/>
+   <property name="door:params" value="dir = &quot;Left&quot;"/>
+   <property name="door:property" value="closed-door"/>
+   <property name="killtrigger" value="OPEN-DOORS"/>
+  </properties>
+  <object name="left-door" type="door" gid="58" x="432" y="1782"/>
+  <object name="right-door" type="door" gid="58" x="486" y="1782"/>
+ </objectgroup>
+ <objectgroup name="firstblood" width="16" height="96">
+  <object name="mummy-spawn-trigger" type="trigger-region" x="162" y="1512" width="540" height="54">
+   <properties>
+    <property name="params" value="&quot;CREATE-MUMMIES&quot;"/>
+   </properties>
+  </object>
+  <object name="mummy_counter" type="%counter" x="108" y="1080" width="54" height="54">
+   <properties>
+    <property name="min" value="0"/>
+    <property name="min-triggers" value="OPEN-SESAME"/>
+    <property name="start" value="2"/>
+    <property name="trigger-down" value="MUMMY-SLAIN"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="firstblood:mummies" width="16" height="96">
+  <properties>
+   <property name="createtrigger" value="CREATE-MUMMIES"/>
+  </properties>
+  <object name="mummy2" type="surprise_mummy" gid="59" x="648" y="1620">
+   <properties>
+    <property name="params" value="triggers = { &quot;MUMMY-SLAIN&quot; }"/>
+    <property name="property" value="trigger-mummy"/>
+   </properties>
+  </object>
+  <object name="mummy1" type="surprise_mummy" gid="59" x="270" y="1620">
+   <properties>
+    <property name="params" value="triggers = { &quot;MUMMY-SLAIN&quot; }"/>
+    <property name="property" value="trigger-mummy"/>
+   </properties>
+  </object>
+  <object name="right-door-back" type="door" gid="58" x="486" y="1728">
+   <properties>
+    <property name="params" value="dir = &quot;Left&quot;"/>
+    <property name="property" value="closed-door"/>
+   </properties>
+  </object>
+  <object name="left-door-back" type="door" gid="58" x="432" y="1728">
+   <properties>
+    <property name="params" value="dir = &quot;Left&quot;"/>
+    <property name="property" value="closed-door"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup name="firstblood:doors" width="16" height="96">
+  <properties>
+   <property name="killtrigger" value="OPEN-SESAME"/>
+  </properties>
+  <object name="left-door-again" type="door" gid="58" x="486" y="918">
+   <properties>
+    <property name="params" value="dir = &quot;Left&quot;"/>
+    <property name="property" value="closed-door"/>
+   </properties>
+  </object>
+  <object name="right-door-again" type="door" gid="58" x="432" y="918">
+   <properties>
+    <property name="params" value="dir = &quot;Left&quot;"/>
+    <property name="property" value="closed-door"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

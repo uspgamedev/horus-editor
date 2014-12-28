@@ -1,3 +1,7 @@
 *~
 .*.swp
 *.workspace
+*.content
+resources/
+resources-v*.tar.gz
+*.sublime-workspace
