@@ -6,7 +6,7 @@ package.path = package.path..";./lib/?.lua;src/?.lua"
 require 'lux.macro.Processor'
 require 'lux.stream'
 require 'macros'
-require 'aux'
+require 'helper'
 require 'special_handlers'
 
 -- Expected values
